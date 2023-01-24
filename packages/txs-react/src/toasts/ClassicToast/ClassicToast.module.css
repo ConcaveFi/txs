@@ -1,0 +1,134 @@
+@import '../keyframes.module.css';
+
+:global([data-part='root']) {
+  animation: slideFadeInX 0.2s forwards;
+}
+
+:global([data-part='root']:not([data-open])) {
+  animation: slideFadeInX 0.3s;
+}
+
+.root {
+  background-color: var(--cnv-toast-background-color);
+  border: 1px solid var(--cnv-toast-border-color);
+  border-radius: var(--cnv-toast-border-radius);
+  box-shadow: var(--cnv-toast-box-shadow);
+  min-width: var(--cnv-toast-min-width);
+  overflow: hidden;
+}
+
+.description {
+  font-family: var(--cnv-font-family);
+  color: var(--cnv-toast-text-color);
+  font-size: var(--cnv-toast-text-font-size);
+  line-height: 1;
+  font-weight: var(--cnv-toast-text-font-weight);
+}
+
+.title {
+  font-family: var(--cnv-font-family);
+  color: var(--cnv-toast-title-color);
+  font-size: var(--cnv-toast-title-font-size);
+  line-height: 1;
+  font-weight: var(--cnv-toast-title-font-weight);
+  margin-bottom: 0.375rem;
+}
+
+/*
+  Action Buttons (dismiss, view in explorer)
+*/
+
+.actionsContainer {
+  background-color: var(--cnv-toast-actions-background);
+  display: flex;
+  height: 2.25rem;
+  border-top: 1px solid var(--cnv-toast-border-color);
+}
+
+.actionButton {
+  font-family: var(--cnv-font-family);
+  font-size: var(--cnv-toast-actions-buttons-font-size);
+  font-weight: 600;
+  background-color: transparent;
+  border: none;
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  text-decoration: none;
+  padding: 0;
+  margin: 0;
+}
+
+.dismissButton {
+  composes: actionButton;
+  color: var(--cnv-toast-dismiss-color);
+}
+.dismissButton:hover {
+  background-color: var(--cnv-toast-dismiss-background-hover);
+  color: var(--cnv-toast-dismiss-color-hover);
+}
+.dismissButton:focus-visible {
+  background-color: var(--cnv-toast-dismiss-background-hover);
+  color: var(--cnv-toast-dismiss-color-hover);
+  outline: none;
+}
+
+.viewExplorerButton {
+  composes: actionButton;
+  border-left: 1px solid var(--cnv-toast-border-color);
+  color: var(--cnv-toast-viewInExplorer-color);
+}
+.viewExplorerButton:hover {
+  background-color: var(--cnv-toast-viewInExplorer-background-hover);
+  color: var(--cnv-toast-viewInExplorer-color-hover);
+}
+.viewExplorerButton:focus-visible {
+  background-color: var(--cnv-toast-viewInExplorer-background-hover);
+  color: var(--cnv-toast-viewInExplorer-color-hover);
+  outline: none;
+}
+
+/* Icon */
+.icon {
+  height: 20px;
+  width: 20px;
+}
+.pendingIcon {
+  composes: icon;
+  color: var(--cnv-toast-pending-icon-color);
+}
+.failedIcon {
+  composes: icon;
+  color: var(--cnv-toast-failed-icon-color);
+}
+.completedIcon {
+  composes: icon;
+  color: var(--cnv-toast-completed-icon-color);
+}
+
+/* 
+  Utils
+*/
+
+.flex {
+  display: flex;
+}
+
+.p3 {
+  padding: 12px;
+}
+
+.gap3 {
+  gap: 12px;
+}
+
+.flexColumn {
+  display: flex;
+  flex-direction: column;
+}
+
+.justifyCenter {
+  justify-content: center;
+}

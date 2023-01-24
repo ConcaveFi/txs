@@ -1,0 +1,70 @@
+.base {
+  --cnv-font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen,
+    Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+
+  /* Toast Container */
+  --cnv-toast-border-radius: 20px;
+  --cnv-toast-min-width: 300px;
+
+  /* Toast Title */
+  --cnv-toast-title-font-size: 0.9rem;
+  --cnv-toast-title-font-weight: 700;
+
+  /* Toast Description */
+  --cnv-toast-text-font-size: 0.9rem;
+  --cnv-toast-text-font-weight: 400;
+}
+
+.light {
+  composes: base;
+
+  /* Toast Icon */
+  --cnv-toast-pending-icon-color: #ededed;
+  --cnv-toast-completed-icon-color: #dff1c9;
+  --cnv-toast-failed-icon-color: #f1cdc9;
+
+  /* Toast Container */
+  --cnv-toast-background-color: #fff;
+  --cnv-toast-border-color: #e7e7e7;
+  --cnv-toast-box-shadow: 0px 4px 24px rgba(0, 0, 0, 0.05);
+
+  /* Toast Title Text */
+  --cnv-toast-title-color: #222222;
+
+  /* Toast Description Text */
+  --cnv-toast-text-color: #8b8d8e;
+
+  /* Toast Dismiss */
+  --cnv-toast-dismiss-color: #8b8d8e;
+  --cnv-toast-dismiss-color-hover: #7c7e80;
+  --cnv-toast-dismiss-background: #f0f0f0;
+  --cnv-toast-dismiss-background-hover: #ebebeb;
+  --cnv-toast-dismiss-border-color: #e7e7e7;
+}
+
+.dark {
+  composes: base;
+
+  /* Toast Icon */
+  --cnv-toast-pending-icon-color: #2d2d2d;
+  --cnv-toast-completed-icon-color: #cfecac;
+  --cnv-toast-failed-icon-color: #f1cdc9;
+
+  /* Toast Container */
+  --cnv-toast-background-color: #1a1b1f;
+  --cnv-toast-border-color: #2c2d31;
+  --cnv-toast-box-shadow: 0px 4px 24px rgba(0, 0, 0, 0.25);
+
+  /* Toast Title Text */
+  --cnv-toast-title-color: #fff;
+
+  /* Toast Description Text */
+  --cnv-toast-text-color: #a3a4a5;
+
+  /* Toast Actions */
+  --cnv-toast-dismiss-color: #8d8d8d;
+  --cnv-toast-dismiss-color-hover: #b9b9b9;
+  --cnv-toast-dismiss-background: #2c2d31;
+  --cnv-toast-dismiss-background-hover: #3d3f44;
+  --cnv-toast-dismiss-border-color: #343539;
+}

@@ -1,0 +1,6 @@
+{
+  "internal": true,
+  "main": "../../dist/toasts/EmojiToast/EmojiToast.cjs",
+  "module": "../../dist/toasts/EmojiToast/EmojiToast.js",
+  "types": "../../dist/toasts/EmojiToast/EmojiToast.d.ts"
+}

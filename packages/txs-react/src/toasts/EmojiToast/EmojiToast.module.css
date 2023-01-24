@@ -1,0 +1,153 @@
+@import '../keyframes.module.css';
+
+:global([data-part='root']) {
+  animation: slideFadeInY 0.2s forwards;
+}
+
+:global([data-part='root']:not([data-open])) {
+  animation: fadeOut 0.3s forwards;
+}
+
+.root {
+  background-color: var(--cnv-toast-background-color);
+  border: 1px solid var(--cnv-toast-border-color);
+  border-radius: var(--cnv-toast-border-radius);
+  box-shadow: var(--cnv-toast-box-shadow);
+  min-width: var(--cnv-toast-min-width);
+  position: relative;
+  transition: all 0.2s ease-in-out;
+}
+.root > a {
+  outline: none;
+  color: inherit;
+  text-decoration: none;
+  user-select: text;
+}
+
+.root:focus,
+.root:focus-within,
+.root:hover {
+  scale: 1.02;
+  border: 2px solid var(--cnv-toast-border-color);
+  cursor: pointer;
+  outline: none;
+}
+.root:has(.dismissButton:focus-within),
+.root:has(.dismissButton:hover) {
+  scale: 1;
+  border: 1px solid var(--cnv-toast-border-color);
+}
+
+.root:hover .icon > span {
+  transition: all 0.2s ease-in-out;
+  position: absolute;
+  rotate: -10deg;
+  scale: 1.15;
+}
+.root:has(.dismissButton:focus-within) .icon > span,
+.root:has(.dismissButton:hover) .icon > span {
+  rotate: 0deg;
+  scale: 1;
+}
+
+.description {
+  font-family: var(--cnv-font-family);
+  color: var(--cnv-toast-text-color);
+  font-size: var(--cnv-toast-text-font-size);
+  line-height: 1;
+  font-weight: var(--cnv-toast-text-font-weight);
+}
+
+.title {
+  font-family: var(--cnv-font-family);
+  color: var(--cnv-toast-title-color);
+  font-size: var(--cnv-toast-title-font-size);
+  line-height: 1;
+  font-weight: var(--cnv-toast-title-font-weight);
+  margin-bottom: 0.375rem;
+}
+
+.dismissButton {
+  position: absolute;
+  top: -0.375rem;
+  right: -0.375rem;
+  border-radius: 0.8rem;
+  width: 1.5rem;
+  height: 1.5rem;
+  border: none;
+  color: var(--cnv-toast-dismiss-color);
+  background-color: var(--cnv-toast-dismiss-background);
+  border: 1px solid var(--cnv-toast-dismiss-border-color);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.dismissButton > svg {
+  height: 1.05rem;
+  width: 1.05rem;
+  min-height: 1rem;
+  min-width: 1rem;
+}
+.dismissButton:hover {
+  scale: 1.05;
+  background-color: var(--cnv-toast-dismiss-background-hover);
+  color: var(--cnv-toast-dismiss-color-hover);
+}
+.dismissButton:focus-visible {
+  scale: 1.05;
+  border: 2px solid var(--cnv-toast-dismiss-background);
+  background-color: var(--cnv-toast-dismiss-background-hover);
+  color: var(--cnv-toast-dismiss-color-hover);
+  outline: none;
+}
+
+/* Icon */
+.icon {
+  transition: all 0.2s ease-in-out;
+  position: relative;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 24px;
+  min-width: 40px;
+  min-height: 40px;
+  cursor: default;
+}
+.pendingIcon {
+  composes: icon;
+  background-color: var(--cnv-toast-pending-icon-color);
+}
+.failedIcon {
+  composes: icon;
+  background-color: var(--cnv-toast-failed-icon-color);
+}
+.completedIcon {
+  composes: icon;
+  background-color: var(--cnv-toast-completed-icon-color);
+}
+
+/* 
+  Utils
+*/
+
+.flex {
+  display: flex;
+}
+
+.p3 {
+  padding: 12px;
+}
+
+.gap3 {
+  gap: 12px;
+}
+
+.flexColumn {
+  display: flex;
+  flex-direction: column;
+}
+
+.justifyCenter {
+  justify-content: center;
+}
