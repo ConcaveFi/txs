@@ -68,6 +68,8 @@ const statusToEmoji = {
 const RecentTransactions = () => {
   const recentTransactions = useTransactions()
 
+  if (recentTransactions.length === 0) return null
+
   return (
     <div className="fixed max-h-[300px] overflow-auto bottom-4 right-4 flex flex-col gap-1 rounded-xl border border-grey-800 bg-grey-900 px-3 py-2 shadow-xl min-w-[250px]">
       <h3 className="text-grey-300 font-sm font-bold">Recent Transactions</h3>
