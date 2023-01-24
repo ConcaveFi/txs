@@ -38,7 +38,6 @@ importers:
       react-dom: ^18.2.0
       tailwindcss: ^3.2.4
       typescript: ^4.9.4
-      use-prefers-color-scheme: ^1.1.1
       wagmi: ^0.10.1
     dependencies:
       '@concave/txs-react': link:../../packages/txs-react
@@ -49,7 +48,6 @@ importers:
       next: 13.1.1_pjwopsidmaokadturxaafygjp4
       react: 18.2.0
       react-dom: 18.2.0_react@18.2.0
-      use-prefers-color-scheme: 1.1.1_react@18.2.0
       wagmi: 0.10.10_hut5uzjqwwhrz2kl3fz3mrwcga
     devDependencies:
       '@types/ms': 0.7.31
@@ -95,7 +93,7 @@ importers:
       tailwindcss: ^3.2.4
       tsc-alias: ^1.8.2
       typed-css-modules: ^0.7.2
-      use-prefers-color-scheme: ^1.1.1
+      use-prefers-color-scheme: ^1.1.2
       vite: ^4.0.4
       vite-plugin-dts: ^1.7.1
       vite-plugin-optimize-css-modules: ^1.0.4
@@ -103,7 +101,7 @@ importers:
     dependencies:
       '@concave/txs-core': link:../txs-core
       typed-css-modules: 0.7.2
-      use-prefers-color-scheme: 1.1.1_react@18.2.0
+      use-prefers-color-scheme: 1.1.2_react@18.2.0
     devDependencies:
       '@types/node': 18.11.18
       '@types/react': 18.0.26
@@ -5398,8 +5396,8 @@ packages:
     dependencies:
       punycode: 2.2.0
 
-  /use-prefers-color-scheme/1.1.1_react@18.2.0:
-    resolution: {integrity: sha512-FMtpUuPVjMi0AkP5+DGAjaIdMWdUj4gBjz1tCJTCEYc9bNQKfaUZUMw7J/e6WsXyAwhDBrX6U6UrzzDZxi7UGQ==}
+  /use-prefers-color-scheme/1.1.2_react@18.2.0:
+    resolution: {integrity: sha512-pzo5cIM4DE9jBus3Np4lX7wwTqjskQWL4MWWtgpIA8YHLaApO/LDhDbnniswlolnSCQoZHk8Szz6eWM/Cp4O/Q==}
     engines: {node: '>=8', npm: '>=5'}
     peerDependencies:
       react: '>= 16.8.0'
@@ -5485,7 +5483,7 @@ packages:
       fs-extra: 10.1.0
       kolorist: 1.6.0
       ts-morph: 16.0.0
-      vite: 4.0.4_@types+node@18.11.18
+      vite: 4.0.4
     transitivePeerDependencies:
       - rollup
       - supports-color

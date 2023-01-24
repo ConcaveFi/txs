@@ -22,7 +22,7 @@
   "dependencies": {
     "@concave/txs-core": "workspace:*",
     "typed-css-modules": "^0.7.2",
-    "use-prefers-color-scheme": "^1.1.1"
+    "use-prefers-color-scheme": "^1.1.2"
   },
   "peerDependencies": {
     "@zag-js/react": ">=0.3.3",
