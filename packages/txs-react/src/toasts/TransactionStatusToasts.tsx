@@ -79,7 +79,7 @@ export function TransactionStatusToasts({
         type: statusToToastType[tx.status],
         duration: tx.status === 'pending' ? Infinity : ten_seconds,
         removeDelay: 500,
-        render: (props) => <ToastComponent transaction={tx} {...props} />,
+        render: (props) => <ToastComponent transaction={tx} {...props} id={tx.hash} />,
       })
     },
     [api],
