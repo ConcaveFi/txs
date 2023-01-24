@@ -1,6 +1,6 @@
 ## Concave txs
 
-![Screen Recording 2023-01-24 at 17 20 38](https://user-images.githubusercontent.com/6232729/214401124-5c08e78f-d7b8-4fb1-8c6c-a818edf06aab.gif)
+![transaciton notification toast](https://user-images.githubusercontent.com/6232729/214408094-630c3aec-a458-4ad0-a9a5-213784d43896.png)
 
 ### The easiest way to manage transactions status on your dapp
 
