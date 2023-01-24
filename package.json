@@ -1,0 +1,30 @@
+{
+  "private": true,
+  "workspaces": [
+    "packages/*",
+    "examples/**"
+  ],
+  "scripts": {
+    "build": "turbo run build",
+    "dev": "FORCE_COLOR=1 turbo run dev --parallel",
+    "dev:docs": "FORCE_COLOR=1 turbo run dev --filter docs",
+    "dev:web": "FORCE_COLOR=1 turbo run dev --filter web",
+    "gen-icons": "turbo run build --filter icons",
+    "lint": "turbo run lint",
+    "format": "prettier --write \"**/*.{ts,tsx,mdx}\"",
+    "clean": "rimraf \"./**/{node_modules,dist,.turbo,.next,.eslintcache,.vercel}\""
+  },
+  "devDependencies": {
+    "eslint": "^8.31.0",
+    "eslint-config-prettier": "^8.6.0",
+    "eslint-config-turbo": "^0.0.7",
+    "prettier": "^2.8.3",
+    "rimraf": "^4.0.4",
+    "turbo": "^1.7.0",
+    "typescript": "^4.9.4"
+  },
+  "engines": {
+    "node": ">=16.0.0"
+  },
+  "packageManager": "pnpm@7.11.0"
+}

@@ -1,0 +1,24 @@
+{
+  "name": "@concave/txs-core",
+  "version": "0.0.1",
+  "type": "module",
+  "files": [
+    "dist"
+  ],
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "scripts": {
+    "build:types": "tsc --emitDeclarationOnly && tsc-alias",
+    "build": "vite build && pnpm run build:types"
+  },
+  "devDependencies": {
+    "@ethersproject/providers": "^5.7.2",
+    "vite": "^4.0.4",
+    "vite-plugin-dts": "^1.7.1",
+    "vitest": "^0.27.1"
+  },
+  "dependencies": {
+    "tsc-alias": "^1.8.2"
+  }
+}

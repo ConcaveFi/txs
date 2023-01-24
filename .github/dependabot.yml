@@ -1,0 +1,11 @@
+version: 2
+updates:
+  - package-ecosystem: 'npm'
+    directory: '/'
+    schedule:
+      interval: 'monthly'
+    open-pull-requests-limit: 0
+    target-branch: 'develop'
+    labels:
+      - 'dependabot'
+      - 'dependencies'

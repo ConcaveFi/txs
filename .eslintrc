@@ -1,0 +1,5 @@
+{
+  "root": true,
+  "extends": ["turbo", "prettier"],
+  "parserOptions": { "sourceType": "module", "ecmaVersion": "latest" }
+}
