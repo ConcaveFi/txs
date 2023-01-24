@@ -1,7 +1,7 @@
 import { useModal } from 'connectkit'
-import { ButtonHTMLAttributes, useEffect } from 'react'
+import { ButtonHTMLAttributes } from 'react'
 import { useAccount } from 'wagmi'
-import { useAddTransaction } from '@concave/txs-react'
+import { StoredTransaction, useAddTransaction, useTransactions } from '@concave/txs-react'
 import { useIsMounted } from 'hooks/useIsMounted'
 import { useContractWrite, usePrepareContractWrite } from 'wagmi'
 import { parseEther } from 'ethers/lib/utils'
@@ -59,10 +59,35 @@ const WrapEthButton = () => {
   return <Button onClick={() => wrap?.()}>Wrap ETH</Button>
 }
 
+const statusToEmoji = {
+  pending: '⏳',
+  confirmed: '👍',
+  failed: '😬',
+} satisfies Record<StoredTransaction['status'], string>
+
+const RecentTransactions = () => {
+  const recentTransactions = useTransactions()
+
+  return (
+    <div className="fixed max-h-[300px] overflow-auto bottom-4 right-4 flex flex-col gap-1 rounded-xl border border-grey-800 bg-grey-900 px-3 py-2 shadow-xl min-w-[250px]">
+      <h3 className="text-grey-300 font-sm font-bold">Recent Transactions</h3>
+      {recentTransactions.map((tx) => {
+        return (
+          <span key={tx.hash} className="text-grey-500 font-xs font-medium">
+            <span className="mr-2">{statusToEmoji[tx.status]}</span>
+            {tx.meta.description}
+          </span>
+        )
+      })}
+    </div>
+  )
+}
+
 const Home = () => {
   return (
-    <div className="flex min-h-screen justify-center items-center flex-col dark:bg-grey-900 bg-grey-50">
+    <div className="flex min-h-screen justify-center items-center flex-col dark:bg-grey-900 bg-grey-50 gap-4">
       <WrapEthButton />
+      <RecentTransactions />
     </div>
   )
 }
