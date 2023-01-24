@@ -12,7 +12,6 @@
   "eslint.lintTask.enable": true,
   "editor.formatOnSave": true,
   "editor.defaultFormatter": "esbenp.prettier-vscode",
-  "prettier.configPath": ".prettierrc.js",
   "git.ignoreLimitWarning": true,
   "eslint.workingDirectories": [{ "mode": "auto" }],
   "css.lint.validProperties": ["composes"],

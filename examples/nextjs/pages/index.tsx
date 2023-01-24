@@ -10,7 +10,7 @@ const Button = (props: ButtonHTMLAttributes<HTMLButtonElement>) => {
   return (
     <button
       {...props}
-      className="rounded shadow hover:scale-105 disabled:hover:shadow-none disabled:hover:scale-1 hover:shadow-blue-500/40 disabled:from-grey-500 disabled:to-grey-600 active:opacity-90 transition-all hover:ring-1 ring-1 ring-grey-200/20 text-white bg-gradient-to-b from-blue-500 to-blue-600 font-bold px-4 py-1 flex gap-1.5 items-center"
+      className="disabled:hover:scale-1 flex items-center gap-1.5 rounded bg-gradient-to-b from-blue-500 to-blue-600 px-4 py-1 font-bold text-white shadow ring-1 ring-grey-200/20 transition-all hover:scale-105 hover:shadow-blue-500/40 hover:ring-1 active:opacity-90 disabled:from-grey-500 disabled:to-grey-600 disabled:hover:shadow-none"
     />
   )
 }
@@ -71,11 +71,11 @@ const RecentTransactions = () => {
   if (recentTransactions.length === 0) return null
 
   return (
-    <div className="fixed max-h-[300px] overflow-auto bottom-4 right-4 flex flex-col gap-1 rounded-xl border border-grey-800 bg-grey-900 px-3 py-2 shadow-xl min-w-[250px]">
-      <h3 className="text-grey-300 font-sm font-bold">Recent Transactions</h3>
+    <div className="fixed bottom-4 right-4 flex max-h-[300px] min-w-[250px] flex-col gap-1 overflow-auto rounded-xl border border-grey-800 bg-grey-900 px-3 py-2 shadow-xl">
+      <h3 className="font-sm font-bold text-grey-300">Recent Transactions</h3>
       {recentTransactions.map((tx) => {
         return (
-          <span key={tx.hash} className="text-grey-500 font-xs font-medium">
+          <span key={tx.hash} className="font-xs font-medium text-grey-500">
             <span className="mr-2">{statusToEmoji[tx.status]}</span>
             {tx.meta.description}
           </span>
@@ -87,7 +87,7 @@ const RecentTransactions = () => {
 
 const Home = () => {
   return (
-    <div className="flex min-h-screen justify-center items-center flex-col dark:bg-grey-900 bg-grey-50 gap-4">
+    <div className="flex min-h-screen flex-col items-center justify-center gap-4 bg-grey-50 dark:bg-grey-900">
       <WrapEthButton />
       <RecentTransactions />
     </div>
