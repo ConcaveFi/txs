@@ -4,7 +4,8 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "start": "next start"
+    "start": "next start",
+    "build": "next build"
   },
   "dependencies": {
     "@concave/txs-react": "workspace:*",
