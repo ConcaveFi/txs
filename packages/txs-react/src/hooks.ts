@@ -3,7 +3,7 @@ import { useAccount, useNetwork, useProvider } from 'wagmi'
 import { useTransactionsStore } from './Provider'
 import type { NewTransaction, StoredTransaction, TransactionsStoreEvents } from '@concave/txs-core'
 
-export const useTransactions = <Selector = StoredTransaction[]>(
+export const useRecentTransactions = <Selector = StoredTransaction[]>(
   selector: (txs: StoredTransaction[]) => Selector = (txs) => txs as Selector,
   { initialTransactions = [] }: { initialTransactions?: StoredTransaction[] } = {},
 ) => {
@@ -23,7 +23,7 @@ export const useTransactions = <Selector = StoredTransaction[]>(
   return transactions
 }
 
-export const useAddTransaction = <Meta extends NewTransaction['meta']>(): ((
+export const useAddRecentTransaction = <Meta extends NewTransaction['meta']>(): ((
   tx: NewTransaction<Meta>,
 ) => void) => {
   const store = useTransactionsStore()
@@ -39,7 +39,7 @@ export const useAddTransaction = <Meta extends NewTransaction['meta']>(): ((
   )
 }
 
-export const useClearTransactions = () => {
+export const useClearRecentTransactions = () => {
   const store = useTransactionsStore()
   const { address } = useAccount()
   const { chain } = useNetwork()
@@ -50,7 +50,20 @@ export const useClearTransactions = () => {
   }, [address, chain, provider, store])
 }
 
-export const useTransactionStoreEvent = <
+export const useRemoveRecentTransaction = () => {
+  const store = useTransactionsStore()
+  const { address } = useAccount()
+  const { chain } = useNetwork()
+
+  return useCallback(
+    (hash: StoredTransaction['hash']) => {
+      if (address && chain) store.removeTransaction(address, chain.id, hash)
+    },
+    [address, chain, store],
+  )
+}
+
+export const useTransactionsStoreEvent = <
   E extends TransactionsStoreEvents,
   T extends E['type'],
   Fn extends E extends { type: T; arg: infer A } ? (arg?: A) => void : VoidFunction,
