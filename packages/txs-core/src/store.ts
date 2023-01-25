@@ -56,6 +56,7 @@ export type TransactionsStoreEvents =
   | { type: 'mounted'; arg: StoredTransaction[] }
   | { type: 'updated'; arg: StoredTransaction }
   | { type: 'added'; arg: StoredTransaction }
+  | { type: 'removed'; arg: StoredTransaction }
   | { type: 'cleared' }
 
 export const createTransactionsStore = (_config?: Partial<TransactionsStoreConfig>) => {
@@ -103,6 +104,13 @@ export const createTransactionsStore = (_config?: Partial<TransactionsStoreConfi
   function clearTransactions(user: Address, chainId: number) {
     updateUserTransactions(user, chainId, () => [])
     listeners.emit('cleared')
+  }
+
+  function removeTransaction(user: Address, chainId: number, hash: StoredTransaction['hash']) {
+    const tx = transactionsOf(user, chainId).find((tx) => tx.hash === hash)
+    if (!tx) return
+    updateUserTransactions(user, chainId, (txs) => txs.filter((tx) => tx.hash !== hash))
+    listeners.emit('removed', tx)
   }
 
   function updateTransactionStatus({
@@ -159,6 +167,7 @@ export const createTransactionsStore = (_config?: Partial<TransactionsStoreConfi
     const unsubs = [
       listeners.on('updated', fn),
       listeners.on('added', fn),
+      listeners.on('removed', fn),
       listeners.on('cleared', fn),
     ]
     return () => {
@@ -170,6 +179,7 @@ export const createTransactionsStore = (_config?: Partial<TransactionsStoreConfi
     addTransaction,
     transactionsOf,
     clearTransactions,
+    removeTransaction,
     onTransactionsChange,
     on: listeners.on,
     mount,
