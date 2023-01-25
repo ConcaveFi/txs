@@ -1,13 +1,15 @@
 {
   "compilerOptions": {
-    "target": "ESNext",
+    "target": "ES2022",
     "lib": ["dom", "dom.iterable", "esnext"],
     "allowJs": true,
     "skipLibCheck": true,
     "strict": true,
     "forceConsistentCasingInFileNames": true,
     "esModuleInterop": true,
-    "outDir": "dist",
+    "outDir": "./dist",
+    "declarationDir": "dist",
+    "tsBuildInfoFile": ".tsbuildinfo",
     "declaration": true,
     "declarationMap": true,
     "module": "esnext",

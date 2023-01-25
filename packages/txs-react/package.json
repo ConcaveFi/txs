@@ -15,14 +15,29 @@
   "files": [
     "dist"
   ],
+  "tsup": {
+    "entry": {
+      "index": "src/index.ts",
+      "toasts/ClassicToast": "src/toasts/ClassicToast/ClassicToast.tsx",
+      "toasts/EmojiToast": "src/toasts/EmojiToast/EmojiToast.tsx"
+    },
+    "format": [
+      "esm"
+    ],
+    "minify": false,
+    "dts": true,
+    "splitting": true,
+    "sourcemap": true,
+    "clean": true,
+    "metafile": true
+  },
   "scripts": {
-    "build:types": "tsc --emitDeclarationOnly && tsc-alias",
-    "build": "vite build && pnpm run build:types"
+    "build": "tsup"
   },
   "dependencies": {
     "@concave/txs-core": "workspace:*",
-    "typed-css-modules": "^0.7.2",
-    "use-prefers-color-scheme": "^1.1.2"
+    "use-prefers-color-scheme": "^1.1.2",
+    "lucide-react": "0.105.0-alpha.4"
   },
   "peerDependencies": {
     "@zag-js/react": ">=0.3.3",
@@ -33,24 +48,16 @@
     "wagmi": ">=0.9.x"
   },
   "devDependencies": {
+    "tsup": "^6.5.0",
     "@types/node": "^18.11.18",
     "@types/react": "^18.0.26",
-    "@vitejs/plugin-react-swc": "^3.0.1",
     "@zag-js/react": "^0.3.3",
     "@zag-js/toast": "^0.2.7",
-    "autoprefixer": "^10.4.13",
-    "class-variance-authority": "^0.4.0",
     "ethers": "5.7.2",
-    "lucide-react": "0.105.0-alpha.4",
     "next": "13.1.1",
     "postcss": "^8.4.21",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "tailwindcss": "^3.2.4",
-    "tsc-alias": "^1.8.2",
-    "vite": "^4.0.4",
-    "vite-plugin-dts": "^1.7.1",
-    "vite-plugin-optimize-css-modules": "^1.0.4",
     "wagmi": "^0.10.1"
   }
 }

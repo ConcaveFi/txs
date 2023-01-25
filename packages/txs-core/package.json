@@ -5,17 +5,30 @@
   "files": [
     "dist"
   ],
-  "main": "./dist/index.cjs",
   "module": "./dist/index.js",
   "types": "./dist/index.d.ts",
+  "tsup": {
+    "entry": [
+      "src/index.ts"
+    ],
+    "format": [
+      "esm",
+      "cjs"
+    ],
+    "minify": false,
+    "dts": true,
+    "splitting": true,
+    "sourcemap": true,
+    "clean": true
+  },
   "scripts": {
-    "build:types": "tsc --emitDeclarationOnly && tsc-alias",
-    "build": "vite build && pnpm run build:types"
+    "build": "tsup"
   },
   "devDependencies": {
     "@ethersproject/providers": "^5.7.2",
     "vite": "^4.0.4",
     "vite-plugin-dts": "^1.7.1",
+    "tsup": "^6.5.0",
     "vitest": "^0.27.1"
   },
   "dependencies": {
