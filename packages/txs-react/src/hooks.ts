@@ -2,10 +2,14 @@ import { useCallback, useEffect, useSyncExternalStore } from 'react'
 import { useAccount, useNetwork, useProvider } from 'wagmi'
 import { useTransactionsStore } from './Provider'
 import type { NewTransaction, StoredTransaction, TransactionsStoreEvents } from '@concave/txs-core'
+import { DefaultToastTransactionMeta } from './toasts/ToastsViewport'
 
-export const useRecentTransactions = <Selector = StoredTransaction[]>(
-  selector: (txs: StoredTransaction[]) => Selector = (txs) => txs as Selector,
-  { initialTransactions = [] }: { initialTransactions?: StoredTransaction[] } = {},
+export const useRecentTransactions = <
+  Meta extends StoredTransaction['meta'] = DefaultToastTransactionMeta,
+  Selector = StoredTransaction<Meta>[],
+>(
+  selector: (txs: StoredTransaction<Meta>[]) => Selector = (txs) => txs as Selector,
+  { initialTransactions = [] }: { initialTransactions?: StoredTransaction<Meta>[] } = {},
 ) => {
   const store = useTransactionsStore()
   const { address } = useAccount()
@@ -14,7 +18,11 @@ export const useRecentTransactions = <Selector = StoredTransaction[]>(
   const transactions = useSyncExternalStore(
     store.onTransactionsChange,
     useCallback(
-      () => selector(store.transactionsOf(address, chain?.id) || initialTransactions),
+      () =>
+        selector(
+          (store.transactionsOf(address, chain?.id) as StoredTransaction<Meta>[]) ||
+            initialTransactions,
+        ),
       [selector, store, address, chain?.id, initialTransactions],
     ),
     () => selector(initialTransactions),
@@ -23,9 +31,9 @@ export const useRecentTransactions = <Selector = StoredTransaction[]>(
   return transactions
 }
 
-export const useAddRecentTransaction = <Meta extends NewTransaction['meta']>(): ((
-  tx: NewTransaction<Meta>,
-) => void) => {
+export const useAddRecentTransaction = <
+  Meta extends NewTransaction['meta'] = DefaultToastTransactionMeta,
+>(): ((transaction: NewTransaction<Meta>) => void) => {
   const store = useTransactionsStore()
   const { address } = useAccount()
   const { chain } = useNetwork()
@@ -77,3 +85,16 @@ export const useTransactionsStoreEvent = <
     return () => unsubscribe()
   }, [store, callback])
 }
+
+// yeaah not sure about this one chief
+export const createTypedHooks = <M extends StoredTransaction['meta']>(): {
+  useRecentTransactions: typeof useRecentTransactions<M>
+  useAddRecentTransaction: typeof useAddRecentTransaction<M>
+  useRemoveRecentTransaction: typeof useRemoveRecentTransaction
+  useClearRecentTransactions: typeof useClearRecentTransactions
+} => ({
+  useRecentTransactions,
+  useAddRecentTransaction,
+  useRemoveRecentTransaction,
+  useClearRecentTransactions,
+})

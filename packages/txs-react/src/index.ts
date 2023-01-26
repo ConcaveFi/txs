@@ -1,11 +1,13 @@
-export { TransactionsProvider } from './Provider'
+export { TransactionsStoreProvider } from './Provider'
 export {
-  useTransactions,
-  useAddTransaction,
-  useClearTransactions,
-  useTransactionStoreEvent,
+  useRecentTransactions,
+  useAddRecentTransaction,
+  useRemoveRecentTransaction,
+  useClearRecentTransactions,
+  useTransactionsStoreEvent,
+  createTypedHooks,
 } from './hooks'
-export { toast } from './toasts/TransactionStatusToasts'
+export { toast, ToastsViewport } from './toasts/ToastsViewport'
 export { createTransactionsStore } from '@concave/txs-core'
-export type { StoredTransaction } from '@concave/txs-core'
-export type { TransactionStatusToastProps } from './toasts/TransactionStatusToasts'
+export type { StoredTransaction, NewTransaction } from '@concave/txs-core'
+export type { TransactionStatusToastProps } from './toasts/ToastsViewport'
