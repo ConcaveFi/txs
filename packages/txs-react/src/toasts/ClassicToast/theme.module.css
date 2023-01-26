@@ -24,6 +24,7 @@
   --cnv-toast-pending-icon-color: #8d8d8d;
   --cnv-toast-completed-icon-color: #00b300;
   --cnv-toast-failed-icon-color: #ff0000;
+  --cnv-toast-stuck-icon-color: #f3c215;
 
   /* Toast Container */
   --cnv-toast-background-color: #ffffff;
@@ -55,6 +56,7 @@
   --cnv-toast-pending-icon-color: #bfbfbf;
   --cnv-toast-completed-icon-color: #19e319;
   --cnv-toast-failed-icon-color: #f73737;
+  --cnv-toast-stuck-icon-color: #f3c215;
 
   /* Toast Container */
   --cnv-toast-background-color: #1e1e1e;

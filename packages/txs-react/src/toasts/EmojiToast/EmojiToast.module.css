@@ -113,18 +113,23 @@
   min-width: 40px;
   min-height: 40px;
   cursor: default;
+  background-color: var(--cnv-toast-icon-color);
 }
 .pendingIcon {
   composes: icon;
-  background-color: var(--cnv-toast-pending-icon-color);
+  --cnv-toast-icon-color: var(--cnv-toast-pending-icon-color);
 }
 .failedIcon {
   composes: icon;
-  background-color: var(--cnv-toast-failed-icon-color);
+  --cnv-toast-icon-color: var(--cnv-toast-failed-icon-color);
 }
 .completedIcon {
   composes: icon;
-  background-color: var(--cnv-toast-completed-icon-color);
+  --cnv-toast-icon-color: var(--cnv-toast-completed-icon-color);
+}
+.stuckIcon {
+  composes: icon;
+  --cnv-toast-icon-color: var(--cnv-toast-stuck-icon-color);
 }
 
 /* 
