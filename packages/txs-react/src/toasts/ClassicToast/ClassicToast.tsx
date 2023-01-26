@@ -1,8 +1,7 @@
 import React from 'react'
-import { CheckCircle2, Loader, XCircle } from 'lucide-react'
-import { StoredTransaction } from '@concave/txs-core'
+import { CheckCircle2, Loader, XCircle, Timer } from 'lucide-react'
 
-import { TransactionStatusToastProps } from '../TransactionStatusToasts'
+import { TransactionStatusToastProps } from '../ToastsViewport'
 import { ThemeProps, useTheme } from '../useTheme'
 import { txExplorerLink } from '../utils'
 import styles from './ClassicToast.module.css'
@@ -10,7 +9,7 @@ import theme from './theme.module.css'
 
 const { flex, p3, gap3, flexColumn, justifyCenter } = styles
 
-const statusToProps = {
+const typeToProps = {
   pending: {
     title: 'Transaction Pending',
     icon: <Loader className={styles.pendingIcon} />,
@@ -23,7 +22,11 @@ const statusToProps = {
     title: 'Transaction Failed',
     icon: <XCircle className={styles.failedIcon} />,
   },
-} satisfies Record<StoredTransaction['status'], { title: string; icon: JSX.Element }>
+  stuck: {
+    title: 'Transaction Stuck',
+    icon: <Timer className={styles.stuckIcon} />,
+  },
+} satisfies Record<TransactionStatusToastProps['type'], { title: string; icon: JSX.Element }>
 
 export type ClassicToastMetaTypes = { description: string }
 export const ClassicToast = ({
@@ -31,20 +34,24 @@ export const ClassicToast = ({
   dismiss,
   colorScheme = 'system',
   className = '',
-  ...props
+  title,
+  description,
+  type,
+  rootProps,
 }: TransactionStatusToastProps & ThemeProps) => {
-  const { icon, title } = statusToProps[transaction.status]
-  const description = transaction.meta.description
+  const { icon, title: _title } = typeToProps[type]
+
+  title ??= _title
 
   const key = useTheme(colorScheme)
 
   return (
-    <div className={`${theme[key]} ${styles.root} ${className}`} {...props}>
+    <div className={`${theme[key]} ${styles.root} ${className}`} {...rootProps}>
       <div className={`${flex} ${p3} ${gap3}`}>
         {icon}
         <div className={`${flexColumn} ${justifyCenter}`}>
-          {title && <span className={styles.title}>{title}</span>}
-          <span className={styles.description}>{description}</span>
+          {title ? <span className={styles.title}>{title}</span> : null}
+          {description ? <span className={styles.description}>{description}</span> : null}
         </div>
       </div>
       <div className={styles.actionsContainer}>

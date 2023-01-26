@@ -5,13 +5,12 @@ import { ThemeProps, useTheme } from '../useTheme'
 import styles from './EmojiToast.module.css'
 import theme from './theme.module.css'
 
-import type { StoredTransaction } from '@concave/txs-core'
-import type { TransactionStatusToastProps } from '../TransactionStatusToasts'
+import type { TransactionStatusToastProps } from '../ToastsViewport'
 import { txExplorerLink } from '../utils'
 
 const { flex, p3, gap3, flexColumn, justifyCenter } = styles
 
-const statusToProps = {
+const typeToProps = {
   pending: {
     title: 'Transaction Pending',
     icon: (
@@ -36,28 +35,40 @@ const statusToProps = {
       </div>
     ),
   },
-} satisfies Record<StoredTransaction['status'], { title: string; icon: JSX.Element }>
+  stuck: {
+    title: 'Transaction Stuck',
+    icon: (
+      <div className={styles.stuckIcon}>
+        <span>❄️</span>
+      </div>
+    ),
+  },
+} satisfies Record<TransactionStatusToastProps['type'], { title: string; icon: JSX.Element }>
 
-export type EmojiToastMetaTypes = { description: string }
+export type EmojiToastMeta = { description: string }
 export const EmojiToast = ({
   transaction,
   dismiss,
   colorScheme = 'system',
   className = '',
-  ...props
+  description,
+  title,
+  type,
+  rootProps,
 }: TransactionStatusToastProps & ThemeProps) => {
-  const { icon, title } = statusToProps[transaction.status]
-  const description = transaction.meta.description
+  const { icon, title: _title } = typeToProps[type]
+
+  title ??= _title
 
   const key = useTheme(colorScheme)
 
   return (
-    <div className={`${theme[key]} ${styles.root} ${className}`} {...props}>
+    <div className={`${theme[key]} ${styles.root} ${className}`} {...rootProps}>
       <a href={txExplorerLink(transaction)} className={`${flex} ${p3} ${gap3}`}>
         {icon}
         <div className={`${flexColumn} ${justifyCenter}`}>
-          {title && <span className={styles.title}>{title}</span>}
-          <span className={styles.description}>{description}</span>
+          {title ? <span className={styles.title}>{title}</span> : null}
+          {description ? <span className={styles.description}>{description}</span> : null}
         </div>
       </a>
       <button aria-label="Dismiss" onClick={dismiss} className={styles.dismissButton}>
