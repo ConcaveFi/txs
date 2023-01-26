@@ -1,27 +1,15 @@
 import type { TransactionStore } from '@concave/txs-core'
-import { createContext, Fragment, PropsWithChildren, useContext, useEffect } from 'react'
+import { createContext, PropsWithChildren, useContext, useEffect } from 'react'
 import { useAccount, useNetwork, useProvider } from 'wagmi'
-import { TransactionStatusToasts, ToastProviderProps } from './toasts/TransactionStatusToasts'
 
 const TransactionsStoreContext = createContext<TransactionStore | null>(null)
 
-type TransactionsProviderProps = PropsWithChildren<
-  {
-    store: TransactionStore
-  } & ToastProviderProps
->
+type TransactionsProviderProps = PropsWithChildren<{
+  store: TransactionStore
+}>
 
-const injectedConnectorsWithBuiltInStatusToast = ['metamask']
-
-export const TransactionsProvider = ({
-  children,
-  store,
-  ToastComponent,
-  placement,
-  staleTime,
-  showPendingOnReopen,
-}: TransactionsProviderProps) => {
-  const { address, connector } = useAccount()
+export const TransactionsStoreProvider = ({ children, store }: TransactionsProviderProps) => {
+  const { address } = useAccount()
   const { chain } = useNetwork()
   const provider = useProvider()
 
@@ -31,21 +19,8 @@ export const TransactionsProvider = ({
     return () => store.unmount()
   }, [provider, address, chain, store])
 
-  const TransactionToast =
-    !ToastComponent || injectedConnectorsWithBuiltInStatusToast.includes(connector?.id || '')
-      ? Fragment
-      : TransactionStatusToasts
-
   return (
-    <TransactionsStoreContext.Provider value={store}>
-      <TransactionToast
-        ToastComponent={ToastComponent}
-        placement={placement}
-        staleTime={staleTime}
-        showPendingOnReopen={showPendingOnReopen}
-      />
-      {children}
-    </TransactionsStoreContext.Provider>
+    <TransactionsStoreContext.Provider value={store}>{children}</TransactionsStoreContext.Provider>
   )
 }
 
