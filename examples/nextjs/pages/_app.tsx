@@ -1,6 +1,6 @@
 import { AppProps } from 'next/app'
 import { ConnectKitProvider } from 'providers/ConnectKitProvider'
-import { TransactionsProvider } from 'providers/TransactionsProvider'
+import { RecentTransactionsProvider } from 'providers/RecentTransactionsProvider'
 import { WagmiProvider } from 'providers/WagmiProvider'
 
 import '../styles.css'
@@ -9,9 +9,9 @@ export default function App({ Component, pageProps }: AppProps) {
   return (
     <WagmiProvider>
       <ConnectKitProvider>
-        <TransactionsProvider>
+        <RecentTransactionsProvider>
           <Component {...pageProps} />
-        </TransactionsProvider>
+        </RecentTransactionsProvider>
       </ConnectKitProvider>
     </WagmiProvider>
   )

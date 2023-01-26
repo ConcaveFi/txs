@@ -1,10 +1,14 @@
 import { useModal } from 'connectkit'
 import { ButtonHTMLAttributes } from 'react'
 import { useAccount } from 'wagmi'
-import { StoredTransaction, useAddTransaction, useTransactions } from '@concave/txs-react'
+import { StoredTransaction } from '@concave/txs-react'
 import { useIsMounted } from 'hooks/useIsMounted'
 import { useContractWrite, usePrepareContractWrite } from 'wagmi'
 import { parseEther } from 'ethers/lib/utils'
+import {
+  useAddRecentTransaction,
+  useRecentTransactions,
+} from 'providers/RecentTransactionsProvider'
 
 const Button = (props: ButtonHTMLAttributes<HTMLButtonElement>) => {
   return (
@@ -16,6 +20,7 @@ const Button = (props: ButtonHTMLAttributes<HTMLButtonElement>) => {
 }
 
 const goerliWeth = '0xb4fbf271143f4fbf7b91a5ded31805e42b2208d6'
+const amount = '0.0001'
 
 const WrapEthButton = () => {
   const { address } = useAccount()
@@ -27,11 +32,9 @@ const WrapEthButton = () => {
     address: goerliWeth,
     abi: ['function deposit() public payable'],
     functionName: 'deposit',
-    overrides: {
-      value: parseEther('0.0001'),
-    },
+    overrides: { value: parseEther(amount) },
   })
-  const addTransaction = useAddTransaction()
+  const addTransaction = useAddRecentTransaction()
   const {
     write: wrap,
     isLoading,
@@ -42,7 +45,11 @@ const WrapEthButton = () => {
     onSuccess: (tx) => {
       addTransaction({
         hash: tx.hash,
-        meta: { description: 'Wrap 0.0001 ETH' },
+        meta: {
+          pending: `Wrapping ${amount} ETH`,
+          confirmed: `Successfully wrapped ${amount} ETH`,
+          failed: `Failed to wrap ${amount} ETH`,
+        },
       })
       setTimeout(() => reset(), 10 * 1000)
     },
@@ -66,7 +73,7 @@ const statusToEmoji = {
 } satisfies Record<StoredTransaction['status'], string>
 
 const RecentTransactions = () => {
-  const recentTransactions = useTransactions()
+  const recentTransactions = useRecentTransactions()
 
   if (recentTransactions.length === 0) return null
 
@@ -77,7 +84,7 @@ const RecentTransactions = () => {
         return (
           <span key={tx.hash} className="font-xs font-medium text-grey-500">
             <span className="mr-2">{statusToEmoji[tx.status]}</span>
-            {tx.meta.description}
+            {tx.meta[tx.status]}
           </span>
         )
       })}
