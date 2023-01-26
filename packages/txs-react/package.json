@@ -21,7 +21,8 @@
   },
   "dependencies": {
     "@concave/txs-core": "workspace:*",
-    "typed-css-modules": "^0.7.2",
+    "detect-browser": "^5.3.0",
+    "lucide-react": "0.105.0-alpha.4",
     "use-prefers-color-scheme": "^1.1.2"
   },
   "peerDependencies": {
@@ -38,15 +39,9 @@
     "@vitejs/plugin-react-swc": "^3.0.1",
     "@zag-js/react": "^0.3.3",
     "@zag-js/toast": "^0.2.7",
-    "autoprefixer": "^10.4.13",
-    "class-variance-authority": "^0.4.0",
     "ethers": "5.7.2",
-    "lucide-react": "0.105.0-alpha.4",
-    "next": "13.1.1",
-    "postcss": "^8.4.21",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "tailwindcss": "^3.2.4",
     "tsc-alias": "^1.8.2",
     "vite": "^4.0.4",
     "vite-plugin-dts": "^1.7.1",

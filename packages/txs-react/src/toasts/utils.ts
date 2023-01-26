@@ -1,15 +1,20 @@
+import { detect } from 'detect-browser'
 import type { StoredTransaction } from '@concave/txs-core'
-import { toast } from './TransactionStatusToasts'
 import * as chains from 'wagmi/chains'
 
-export const statusToToastType = {
-  pending: 'loading',
-  confirmed: 'success',
-  failed: 'error',
-} satisfies Record<StoredTransaction['status'], toast.Type>
-
+// tx explorer
 const explorerOf = (chainId: number) => {
   return Object.values(chains).find((chain) => chain.id === chainId)?.blockExplorers?.default.url
 }
 export const txExplorerLink = ({ chainId, hash }: StoredTransaction) =>
   `${explorerOf(chainId)}/tx/${hash}`
+
+// isMobile
+export const detectEnv = (userAgent?: string) => detect(userAgent)
+export const detectOS = (env = detectEnv()) => env?.os?.toLowerCase()
+
+export const isAndroid = (os = detectOS()) => os?.includes('android')
+export const isIOS = (os = detectOS()) =>
+  os?.includes('ios') || (os?.includes('mac') && navigator.maxTouchPoints > 1)
+
+export const isMobile = () => isAndroid() || isIOS()
