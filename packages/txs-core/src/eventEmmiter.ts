@@ -17,6 +17,11 @@ export const createEventEmmiter = <E extends { type: string; arg?: unknown }>() 
   function emit<T extends E['type'], Arg extends InferArg<E, T>>(event: T, args?: Arg) {
     listeners[event]?.forEach((fn) => fn(args))
   }
+  function clear() {
+    Object.keys(listeners).forEach((key) => {
+      listeners[key].clear()
+    })
+  }
 
-  return { on, emit }
+  return { on, emit, clear }
 }

@@ -160,6 +160,7 @@ export const createTransactionsStore = (_config?: Partial<TransactionsStoreConfi
 
   function unmount() {
     pendingTxsCache.clear()
+    listeners.clear()
   }
 
   /* util to listen for any change */

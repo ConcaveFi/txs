@@ -16,7 +16,9 @@ export const TransactionsStoreProvider = ({ children, store }: TransactionsProvi
   useEffect(() => {
     if (!provider || !address || !chain?.id) return
     store.mount(provider, address, chain.id)
-    return () => store.unmount()
+    return () => {
+      store.unmount()
+    }
   }, [provider, address, chain, store])
 
   return (
