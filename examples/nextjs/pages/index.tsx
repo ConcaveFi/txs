@@ -78,11 +78,11 @@ const RecentTransactions = () => {
   if (recentTransactions.length === 0) return null
 
   return (
-    <div className="fixed bottom-4 right-4 flex max-h-[300px] min-w-[250px] flex-col gap-1 overflow-auto rounded-xl border border-grey-800 bg-grey-900 px-3 py-2 shadow-xl">
-      <h3 className="font-sm font-bold text-grey-300">Recent Transactions</h3>
+    <div className="fixed bottom-4 right-4 flex max-h-[300px] min-w-[250px] flex-col gap-1 overflow-auto rounded-xl bg-gradient-to-b from-grey-100 to-grey-200 px-3 py-2 shadow-lg shadow-black/5 dark:border-grey-800 dark:bg-grey-900 dark:from-grey-800 dark:to-grey-900">
+      <h3 className="text-sm font-bold dark:text-grey-300">Recent Transactions</h3>
       {recentTransactions.map((tx) => {
         return (
-          <span key={tx.hash} className="font-xs font-medium text-grey-500">
+          <span key={tx.hash} className="text-sm text-grey-500 dark:text-grey-400">
             <span className="mr-2">{statusToEmoji[tx.status]}</span>
             {tx.meta[tx.status]}
           </span>
