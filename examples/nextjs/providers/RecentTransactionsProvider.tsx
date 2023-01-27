@@ -19,7 +19,7 @@ type TransactionMeta = {
 
 const MyCustomNotification = (props: TransactionStatusToastProps<TransactionMeta>) => {
   const tx = props.transaction
-  return <EmojiToast {...props} title="" description={tx.meta[tx.status]} />
+  return <EmojiToast {...props} description={tx.meta[tx.status]} />
 }
 
 export const useRecentTransactions = txs.useRecentTransactions<TransactionMeta>

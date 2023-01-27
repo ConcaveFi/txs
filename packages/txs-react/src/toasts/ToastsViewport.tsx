@@ -59,9 +59,15 @@ const BaseToast = ({ actor }: { actor: toast.Service }) => {
 
 const two_hours = 1000 * 60 * 60 * 2
 const half_hour = 1000 * 60 * 30
-const ten_seconds = 10 * 1000
+const five_seconds = 5 * 1000
 const _gutter = '12px'
 const _offsets = '12px'
+
+const statusToToastType = {
+  pending: 'loading',
+  confirmed: 'success',
+  failed: 'error',
+} satisfies Record<StoredTransaction['status'], toast.Type>
 
 export type DefaultToastTransactionMeta = { description: string }
 
@@ -87,9 +93,11 @@ export function ToastsViewport<M extends StoredTransaction['meta'] = DefaultToas
   )
   const api = toast.group.connect(state, send, normalizeProps)
 
+  /* 
+    metamask on mobile shows its own toast, so we disable ours
+    maybe more connectors do this, we can add them here
+  */
   const { connector } = useAccount()
-  // metamask on mobile shows its own toast, so we disable ours
-  // maybe more connectors do this, we can add them here
   const disableToast = isMobile() && connector && ['metamask'].includes(connector.id)
 
   const upsertTxToast = useCallback(
@@ -102,8 +110,8 @@ export function ToastsViewport<M extends StoredTransaction['meta'] = DefaultToas
       api.upsert({
         id: tx.hash,
         placement,
-        duration: isPending ? Infinity : ten_seconds,
-        removeDelay: 500,
+        type: statusToToastType[tx.status],
+        duration: isPending ? Infinity : five_seconds,
         render: ({ onClose, onClosing, onOpen, onUpdate, dismiss }) => (
           <TransactionStatusComponent
             transaction={tx}
