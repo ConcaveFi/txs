@@ -1,11 +1,11 @@
-import React, { PropsWithChildren, useCallback } from 'react'
+import React, { PropsWithChildren, useCallback, useEffect } from 'react'
 import * as toast from '@zag-js/toast'
 import type { RenderOptions, UserDefinedGroupContext } from '@zag-js/toast/dist/toast.types'
 import { normalizeProps, useActor, useMachine } from '@zag-js/react'
 import type { StoredTransaction } from '@concave/txs-core'
-import { useTransactionsStoreEvent } from '../hooks'
 import { isMobile } from './utils'
 import { useAccount } from 'wagmi'
+import { useTransactionsStore } from '../Provider'
 
 export type TransactionStatusToastProps<Meta = Record<string, string>> = Pick<
   RenderOptions,
@@ -71,6 +71,20 @@ const statusToToastType = {
 
 export type DefaultToastTransactionMeta = { description: string }
 
+/*
+  removeDuplicateToasts
+  is a workaround for a what looks like a bug in @zag-js/toast
+  on development strict mode, react calls the useEffect twice
+  so it mounts, unmounts and then mounts again the transactions store, 
+  calling upsert for each pending tx twice (when showPendingOnReopen is true),
+  this renders the same toast twice, so we filter out the duplicates
+  
+  api.upsert checks if the toast is visible (in state) to decide if it should update or create a new one
+  but checking the api.toasts on the 'mounted' event returns nothing (both times)
+*/
+const removeDuplicateToasts = (toasts: toast.Service[]) =>
+  toasts.filter((value, index, self) => index === self.findIndex((t) => t.id === value.id))
+
 export function ToastsViewport<M extends StoredTransaction['meta'] = DefaultToastTransactionMeta>({
   TransactionStatusComponent,
   placement = 'top-end',
@@ -112,13 +126,12 @@ export function ToastsViewport<M extends StoredTransaction['meta'] = DefaultToas
         placement,
         type: statusToToastType[tx.status],
         duration: isPending ? Infinity : five_seconds,
-        render: ({ onClose, onClosing, onOpen, onUpdate, dismiss }) => (
+        render: ({ id, onClose, onClosing, onOpen, onUpdate, dismiss }) => (
           <TransactionStatusComponent
             transaction={tx}
             type={type}
-            id={tx.hash}
             description={tx.meta.description}
-            {...{ onClose, onClosing, onOpen, onUpdate, dismiss }}
+            {...{ id, onClose, onClosing, onOpen, onUpdate, dismiss }}
           />
         ),
       })
@@ -126,31 +139,29 @@ export function ToastsViewport<M extends StoredTransaction['meta'] = DefaultToas
     [api],
   )
 
-  useTransactionsStoreEvent('updated', upsertTxToast)
-  useTransactionsStoreEvent('added', upsertTxToast)
-  useTransactionsStoreEvent(
-    'removed',
-    useCallback((tx?: StoredTransaction<M>) => tx && api.remove(tx.hash), [api]),
-  )
-  useTransactionsStoreEvent(
-    'mounted',
-    useCallback(
-      (txs?: StoredTransaction<M>[]) => {
+  const store = useTransactionsStore()
+  useEffect(() => {
+    const events = [
+      store.on('added', upsertTxToast),
+      store.on('updated', upsertTxToast),
+      store.on('removed', (tx?: StoredTransaction<M>) => tx && api.remove(tx.hash)),
+      store.on('mounted', (txs?: StoredTransaction<M>[]) => {
         if (!txs || !showPendingOnReopen) return
         const pendingTxs = txs.filter((t) => t.status === 'pending')
-        pendingTxs.forEach((tx) => {
-          upsertTxToast(tx)
-        })
-      },
-      [showPendingOnReopen],
-    ),
-  )
+        pendingTxs.forEach((tx) => upsertTxToast(tx))
+      }),
+    ]
+    return () => {
+      // unsubscribe from store events
+      events.forEach((unsub) => unsub())
+    }
+  }, [api, upsertTxToast])
 
   return (
     <>
       {Object.entries(api.toastsByPlacement).map(([placement, toasts]) => (
         <div key={placement} {...api.getGroupProps({ placement: placement as toast.Placement })}>
-          {toasts.map((toastActor) => (
+          {removeDuplicateToasts(toasts).map((toastActor) => (
             <BaseToast key={toastActor.id} actor={toastActor} />
           ))}
         </div>

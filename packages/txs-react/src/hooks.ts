@@ -70,18 +70,3 @@ export const useRemoveRecentTransaction = () => {
     [address, chain, store],
   )
 }
-
-export const useTransactionsStoreEvent = <
-  E extends TransactionsStoreEvents,
-  T extends E['type'],
-  Fn extends E extends { type: T; arg: infer A } ? (arg?: A) => void : VoidFunction,
->(
-  event: T,
-  callback: Fn,
-) => {
-  const store = useTransactionsStore()
-  useEffect(() => {
-    const unsubscribe = store.on(event, callback)
-    return () => unsubscribe()
-  }, [store, callback])
-}
