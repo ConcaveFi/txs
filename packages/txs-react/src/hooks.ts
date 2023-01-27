@@ -85,16 +85,3 @@ export const useTransactionsStoreEvent = <
     return () => unsubscribe()
   }, [store, callback])
 }
-
-// yeaah not sure about this one chief
-export const createTypedHooks = <M extends StoredTransaction['meta']>(): {
-  useRecentTransactions: typeof useRecentTransactions<M>
-  useAddRecentTransaction: typeof useAddRecentTransaction<M>
-  useRemoveRecentTransaction: typeof useRemoveRecentTransaction
-  useClearRecentTransactions: typeof useClearRecentTransactions
-} => ({
-  useRecentTransactions,
-  useAddRecentTransaction,
-  useRemoveRecentTransaction,
-  useClearRecentTransactions,
-})

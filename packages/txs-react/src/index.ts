@@ -5,7 +5,6 @@ export {
   useRemoveRecentTransaction,
   useClearRecentTransactions,
   useTransactionsStoreEvent,
-  createTypedHooks,
 } from './hooks'
 export { toast, ToastsViewport } from './toasts/ToastsViewport'
 export { createTransactionsStore } from '@concave/txs-core'
