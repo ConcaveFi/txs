@@ -30,7 +30,7 @@
 @keyframes slideFadeInX {
   0% {
     opacity: 0;
-    transform: translateX(15%);
+    transform: translateX(8%);
   }
   100% {
     opacity: 100;
