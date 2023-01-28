@@ -1,4 +1,4 @@
-![transaciton notification toast](https://user-images.githubusercontent.com/6232729/215291468-808a1834-93bd-479b-9c34-90d789ab87a3.png)
+![transaction notification toast](https://user-images.githubusercontent.com/6232729/215291468-808a1834-93bd-479b-9c34-90d789ab87a3.png)
 
 
 ## Concave txs 
@@ -70,7 +70,22 @@ And in your component
   })
 ```
 
-### Some Defaults
+## Built in Components
+
+```js
+import { EmojiToast } from '@concave/txs-react/toasts/EmojiToast'
+import '@concave/txs-react/toasts/EmojiToast/styles.css'
+```
+![EmojiToast](https://user-images.githubusercontent.com/6232729/215291468-808a1834-93bd-479b-9c34-90d789ab87a3.png)
+
+```js
+import { ClassicToast } from '@concave/txs-react/toasts/ClassicToast'
+import '@concave/txs-react/toasts/ClassicToast/styles.css'
+```
+![ClassicToast](https://user-images.githubusercontent.com/6232729/215294093-c0900895-4a0c-4b88-8e5a-0b70c15f5b99.png)
+
+
+## Some Defaults
 
 The following can be configured thru props on `ToastsViewport`
 
@@ -78,7 +93,7 @@ The following can be configured thru props on `ToastsViewport`
 - `staleTime`: if the user closed the app without a status update, for how long it's still relevant to display the update on reopen
 - `stuckTime`: transactions are considered stuck after 30min without a confirmation/rejection
 
-### Meta field
+## Meta field
 
 The `meta` field accepts anything serializable really,
 for example, instead of a single `description` you may want to have custom description for `pending`, `completed` and `failed`
