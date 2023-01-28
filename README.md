@@ -1,4 +1,5 @@
-![transaction notification toast](https://user-images.githubusercontent.com/6232729/215291468-808a1834-93bd-479b-9c34-90d789ab87a3.png)
+![aaaaaa](https://user-images.githubusercontent.com/6232729/215295598-cdda474f-78bc-482f-8e92-4feab3169a69.png)
+
 
 
 ## Concave txs 
@@ -71,6 +72,7 @@ And in your component
 ```
 
 ## Built in Components
+Both detect `prefers-color-scheme` and style `light`/`dark` accordingly, you can force by passing a `colorScheme` prop, default is `system`
 
 ```js
 import { EmojiToast } from '@concave/txs-react/toasts/EmojiToast'
