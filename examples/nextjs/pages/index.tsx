@@ -1,7 +1,7 @@
 import { useModal } from 'connectkit'
 import { ButtonHTMLAttributes } from 'react'
 import { useAccount } from 'wagmi'
-import { StoredTransaction } from '@concave/txs-react'
+import { StoredTransaction } from '@pcnv/txs-react'
 import { useIsMounted } from 'hooks/useIsMounted'
 import { useContractWrite, usePrepareContractWrite } from 'wagmi'
 import { parseEther } from 'ethers/lib/utils'

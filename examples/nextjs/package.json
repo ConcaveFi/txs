@@ -8,7 +8,7 @@
     "build": "next build"
   },
   "dependencies": {
-    "@concave/txs-react": "workspace:*",
+    "@pcnv/txs-react": "workspace:*",
     "@next/font": "^13.1.1",
     "connectkit": "^1.1.1",
     "eslint-config-next": "^13.1.5",

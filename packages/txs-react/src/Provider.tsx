@@ -1,4 +1,4 @@
-import type { TransactionStore } from '@concave/txs-core'
+import type { TransactionStore } from '@pcnv/txs-core'
 import { createContext, PropsWithChildren, useContext, useEffect } from 'react'
 import { useAccount, useNetwork, useProvider } from 'wagmi'
 

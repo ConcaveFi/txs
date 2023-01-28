@@ -1,5 +1,5 @@
 import { detect } from 'detect-browser'
-import type { StoredTransaction } from '@concave/txs-core'
+import type { StoredTransaction } from '@pcnv/txs-core'
 import * as chains from 'wagmi/chains'
 
 // tx explorer

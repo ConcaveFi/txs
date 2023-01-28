@@ -6,10 +6,10 @@ import {
   ToastsViewport,
   TransactionsStoreProvider,
   TransactionStatusToastProps,
-} from '@concave/txs-react'
-import * as txs from '@concave/txs-react'
-import { EmojiToast } from '@concave/txs-react/toasts/EmojiToast'
-import '@concave/txs-react/toasts/EmojiToast/styles.css'
+} from '@pcnv/txs-react'
+import * as txs from '@pcnv/txs-react'
+import { EmojiToast } from '@pcnv/txs-react/toasts/EmojiToast'
+import '@pcnv/txs-react/toasts/EmojiToast/styles.css'
 
 const txsStore = createTransactionsStore()
 

@@ -1,22 +1,21 @@
 ![aaaaaa](https://user-images.githubusercontent.com/6232729/215295598-cdda474f-78bc-482f-8e92-4feab3169a69.png)
 
+## Concave txs
 
-
-## Concave txs 
 A plug and play, customizable way to manage user transaction status on your dapp
 
 - ✅ Out-of-the-box status notifications on top of @zag-js/toast (totally optional)
 - 🎉 Easily customizable, or create your own with simple react hooks
-- ✨ Framework agnostic core at `@concave/txs-core`
+- ✨ Framework agnostic core at `@pcnv/txs-core`
 - 📦 Tiny tiny, less than `3 kB gzipped`
 
-### Install 
+### Install
 
 ```bash
-pnpm add @concave/txs-react ethers wagmi @zag-js/react @zag-js/toast
+pnpm add @pcnv/txs-react ethers wagmi @zag-js/react @zag-js/toast
 
 # zag is not required if you want to create your own notification components
-pnpm add @concave/txs-react ethers wagmi
+pnpm add @pcnv/txs-react ethers wagmi
 ```
 
 ### Usage
@@ -28,11 +27,11 @@ import {
   createTransactionsStore,
   ToastsViewport,
   TransactionsStoreProvider,
-} from '@concave/txs-react'
+} from '@pcnv/txs-react'
 
 // import a builtin toast component or create your own
-import { ClassicToast } from '@concave/txs-react/toasts/ClassicToast'
-import '@concave/txs-react/toasts/ClassicToast/styles.css'
+import { ClassicToast } from '@pcnv/txs-react/toasts/ClassicToast'
+import '@pcnv/txs-react/toasts/ClassicToast/styles.css'
 
 const transactionsStore = createTransactionsStore()
 
@@ -40,8 +39,8 @@ const transactionsStore = createTransactionsStore()
 
 // Add the provider to your app
 <TransactionsStoreProvider store={txsStore}>
-  <ToastsViewport 
-    TransactionStatusComponent={ClassicToast} 
+  <ToastsViewport
+    TransactionStatusComponent={ClassicToast}
     placement="top-end"
    />
   ...
@@ -51,10 +50,10 @@ And in your component
 
 ```ts
   import { usePrepareContractWrite, useContractWrite } from 'wagmi'
-  import { useAddRecentTransaction } from '@concave/txs-react'
-  
+  import { useAddRecentTransaction } from '@pcnv/txs-react'
+
   ...
-  
+
   const { config } = usePrepareContractWrite(...)
   const addTransaction = useAddRecentTransaction()
   const { write } = useContractWrite({
@@ -72,20 +71,22 @@ And in your component
 ```
 
 ## Built in Components
+
 Both detect `prefers-color-scheme` and style `light`/`dark` accordingly, you can force by passing a `colorScheme` prop, default is `system`
 
 ```js
-import { EmojiToast } from '@concave/txs-react/toasts/EmojiToast'
-import '@concave/txs-react/toasts/EmojiToast/styles.css'
+import { EmojiToast } from '@pcnv/txs-react/toasts/EmojiToast'
+import '@pcnv/txs-react/toasts/EmojiToast/styles.css'
 ```
+
 ![EmojiToast](https://user-images.githubusercontent.com/6232729/215291468-808a1834-93bd-479b-9c34-90d789ab87a3.png)
 
 ```js
-import { ClassicToast } from '@concave/txs-react/toasts/ClassicToast'
-import '@concave/txs-react/toasts/ClassicToast/styles.css'
+import { ClassicToast } from '@pcnv/txs-react/toasts/ClassicToast'
+import '@pcnv/txs-react/toasts/ClassicToast/styles.css'
 ```
-![ClassicToast](https://user-images.githubusercontent.com/6232729/215294093-c0900895-4a0c-4b88-8e5a-0b70c15f5b99.png)
 
+![ClassicToast](https://user-images.githubusercontent.com/6232729/215294093-c0900895-4a0c-4b88-8e5a-0b70c15f5b99.png)
 
 ## Some Defaults
 
@@ -112,8 +113,8 @@ const MyCustomNotification = (props: TransactionStatusToastProps<TransactionMeta
   return <EmojiToast {...props} description={tx.meta[tx.status]} />
 }
 
-// you can rexport the hooks passing your new type as a generic to type check on use 
-// just remember to import from this file, and not @concave/txs-react
+// you can rexport the hooks passing your new type as a generic to type check on use
+// just remember to import from this file, and not @pcnv/txs-react
 export const useRecentTransactions = cnvTxs.useRecentTransactions<TransactionMeta>
 export const useAddRecentTransaction = cnvTxs.useAddRecentTransaction<TransactionMeta>
 
@@ -127,7 +128,7 @@ const { addTransaction } = useAddRecentTransaction()
 ...
 addTransaction({
   hash: tx.hash,
-  meta: { 
+  meta: {
     pending: '...',
     completed: '...',
     failed: '...',
@@ -140,7 +141,8 @@ addTransaction({
 > **Note**
 > Beware that everything included as `meta` will be saved to LocalStorage
 
-#### Another example 
+#### Another example
+
 This time only some properties are saved to localstorage based on the transaction type
 
 ```jsx
@@ -173,13 +175,10 @@ const { addTransaction } = useAddRecentTransaction<TransactionType>()
 ...
 addTransaction({
   hash: tx.hash,
-  meta: { 
+  meta: {
     type: 'approve', // typescript can auto suggest all available types and their required properties
     amount: 1,
     token: 'CNV'
    },
 })
 ```
-
-
-
