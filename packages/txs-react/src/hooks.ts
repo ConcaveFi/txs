@@ -1,7 +1,7 @@
-import { useCallback, useEffect, useSyncExternalStore } from 'react'
+import { useCallback, useSyncExternalStore } from 'react'
 import { useAccount, useNetwork, useProvider } from 'wagmi'
 import { useTransactionsStore } from './Provider'
-import type { NewTransaction, StoredTransaction, TransactionsStoreEvents } from '@concave/txs-core'
+import type { NewTransaction, StoredTransaction } from '@concave/txs-core'
 import { DefaultToastTransactionMeta } from './toasts/ToastsViewport'
 
 export const useRecentTransactions = <
