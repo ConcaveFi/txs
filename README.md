@@ -39,8 +39,9 @@ const transactionsStore = createTransactionsStore()
 ...
 
 // Add the provider to your app
+// make sure to make it as children of WagmiConfig 
 <WagmiConfig client={...}> 
-  <TransactionsStoreProvider store={txsStore}> // make sure to make it a children of WagmiConfig 
+  <TransactionsStoreProvider store={txsStore}>
     <ToastsViewport
       TransactionStatusComponent={ClassicToast}
       placement="top-end"
