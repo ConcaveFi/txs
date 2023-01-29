@@ -117,9 +117,9 @@ clearTransactions()
 #### `useTransactionsStoreEvent`
 Listens for an event from the store to execute a callback
 ```ts
-useTransactionsStoreEvent('added', (tx) => {
+useTransactionsStoreEvent('added', useCallback((tx) => {
   // a new transaction was added, do something
-})
+}, []))
 ```
 Supported events are `added`, `updated`, `removed`, `cleared`, `mounted`
 
@@ -128,9 +128,9 @@ Useful if you are building your own notification solution
 Maybe you want to display a confirmation dialog on transaction confimed. 
 that could look something like this
 ```ts
-useTransactionsStoreEvent('updated', (tx) => {
+useTransactionsStoreEvent('updated', useCallback((tx) => {
   if (tx.status === 'confirmed') displayTxConfirmedDialog(tx)
-})
+}, [displayTxConfirmedDialog]))
 ```
 
 ## Built in Components
