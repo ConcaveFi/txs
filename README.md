@@ -73,6 +73,66 @@ And in your component
   })
 ```
 
+## Hooks
+#### `useRecentTransactions`
+returns all transactions stored for the connected user in the connected chain
+```ts
+const recentTransactions = useRecentTransactions()
+```
+It also accepts a selector
+```ts
+// this component will only rerender when a new transaction is set as completed
+const completedTransactions = useRecentTransactions(txs => txs.filter(({ status }) => status === 'completed'))
+```
+
+#### `useAddRecentTransaction`
+Adds a transaction to be tracked, to the connected user/chain
+```ts
+const addTransaction = useAddRecentTransaction()
+...
+addTransaction({
+  hash: '0x your transaciton hash',
+  meta: {
+    // metadata about the transaciton, description, type etc, more on the meta field below
+  }
+})
+```
+
+#### `useRemoveRecentTransaction`
+Removes a connected user transaction by hash
+```ts
+const removeTransaction = useRemoveRecentTransaction()
+...
+removeTransaction(hash)
+```
+
+#### `useClearRecentTransactions`
+Clears all transactions stored on the current connected user/chain
+```ts
+const clearTransactions = useClearRecentTransactions()
+...
+clearTransactions()
+```
+
+#### `useTransactionsStoreEvent`
+Listens for an event from the store to execute a callback
+```ts
+useTransactionsStoreEvent('added', (tx) => {
+  // a new transaction was added, do something
+})
+```
+Supported events are `added`, `updated`, `removed`, `cleared`, `mounted`
+
+Useful if you are building your own notification solution
+
+Maybe you want to display a confirmation dialog on transaction confimed. 
+that could look something like this
+```ts
+useTransactionsStoreEvent('updated', (tx) => {
+  if (tx.status === 'confirmed') displayTxConfirmedDialog(tx)
+})
+```
+
 ## Built in Components
 
 Both detect `prefers-color-scheme` and style `light`/`dark` accordingly, you can force by passing a `colorScheme` prop, default is `system`
