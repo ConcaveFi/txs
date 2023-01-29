@@ -6,6 +6,7 @@ A plug and play, customizable way to manage user transaction status on your dapp
 
 - ✅ Out-of-the-box status notifications on top of @zag-js/toast (totally optional)
 - 🎉 Easily customizable, or create your own with simple react hooks
+- 🔥 Using `ethers` and `wagmi`
 - ✨ Framework agnostic core at `@pcnv/txs-core`
 - 📦 Tiny tiny, less than `3 kB gzipped`
 
@@ -38,12 +39,13 @@ const transactionsStore = createTransactionsStore()
 ...
 
 // Add the provider to your app
-<TransactionsStoreProvider store={txsStore}>
-  <ToastsViewport
-    TransactionStatusComponent={ClassicToast}
-    placement="top-end"
-   />
-  ...
+<WagmiConfig client={...}> 
+  <TransactionsStoreProvider store={txsStore}> // make sure to make it a children of WagmiConfig 
+    <ToastsViewport
+      TransactionStatusComponent={ClassicToast}
+      placement="top-end"
+     />
+    ...
 ```
 
 And in your component
