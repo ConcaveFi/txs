@@ -1,7 +1,7 @@
-import { useCallback, useSyncExternalStore } from 'react'
+import { useCallback, useEffect, useSyncExternalStore } from 'react'
 import { useAccount, useNetwork, useProvider } from 'wagmi'
 import { useTransactionsStore } from './Provider'
-import type { NewTransaction, StoredTransaction } from '@pcnv/txs-core'
+import type { NewTransaction, StoredTransaction, TransactionsStoreEvents } from '@pcnv/txs-core'
 import { DefaultToastTransactionMeta } from './toasts/ToastsViewport'
 
 export const useRecentTransactions = <
@@ -69,4 +69,19 @@ export const useRemoveRecentTransaction = () => {
     },
     [address, chain, store],
   )
+}
+
+export const useTransactionsStoreEvent = <
+  E extends TransactionsStoreEvents,
+  T extends E['type'],
+  Fn extends E extends { type: T; arg: infer A } ? (arg?: A) => void : VoidFunction,
+>(
+  event: T,
+  callback: Fn,
+) => {
+  const store = useTransactionsStore()
+  useEffect(() => {
+    const unsubscribe = store.on(event, callback)
+    return () => unsubscribe()
+  }, [store, callback])
 }

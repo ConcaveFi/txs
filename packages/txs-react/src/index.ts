@@ -4,6 +4,7 @@ export {
   useAddRecentTransaction,
   useRemoveRecentTransaction,
   useClearRecentTransactions,
+  useTransactionsStoreEvent,
 } from './hooks'
 export { toast, ToastsViewport } from './toasts/ToastsViewport'
 export { createTransactionsStore } from '@pcnv/txs-core'
