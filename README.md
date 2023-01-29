@@ -127,7 +127,7 @@ export const useAddRecentTransaction = cnvTxs.useAddRecentTransaction<Transactio
 ...
 
 // and in you component ts will enforce this usage
-const { addTransaction } = useAddRecentTransaction()
+const addTransaction = useAddRecentTransaction()
 ...
 addTransaction({
   hash: tx.hash,
@@ -174,7 +174,7 @@ const MyCustomNotification = (props: TransactionStatusToastProps<TransactionType
 ...
 
 // and the hook usage
-const { addTransaction } = useAddRecentTransaction<TransactionType>()
+const addTransaction = useAddRecentTransaction<TransactionType>()
 ...
 addTransaction({
   hash: tx.hash,
