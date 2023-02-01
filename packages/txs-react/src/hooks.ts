@@ -1,8 +1,11 @@
-import { useCallback, useEffect, useSyncExternalStore } from 'react'
+import { useSyncExternalStore, useCallback, useEffect } from 'react'
 import { useAccount, useNetwork, useProvider } from 'wagmi'
 import { useTransactionsStore } from './Provider'
 import type { NewTransaction, StoredTransaction, TransactionsStoreEvents } from '@pcnv/txs-core'
 import { DefaultToastTransactionMeta } from './toasts/ToastsViewport'
+
+import useSyncExternalStoreExports from 'use-sync-external-store/shim/with-selector'
+const { useSyncExternalStoreWithSelector } = useSyncExternalStoreExports
 
 export const useRecentTransactions = <
   Meta extends StoredTransaction['meta'] = DefaultToastTransactionMeta,
@@ -15,17 +18,17 @@ export const useRecentTransactions = <
   const { address } = useAccount()
   const { chain } = useNetwork()
 
-  const transactions = useSyncExternalStore(
+  const transactions = useSyncExternalStoreWithSelector(
     store.onTransactionsChange,
     useCallback(
       () =>
-        selector(
-          (store.transactionsOf(address, chain?.id) as StoredTransaction<Meta>[]) ||
-            initialTransactions,
-        ),
-      [selector, store, address, chain?.id, initialTransactions],
+        address && chain?.id
+          ? (store.transactionsOf(address, chain.id) as StoredTransaction<Meta>[])
+          : [],
+      [address, chain?.id, store, selector],
     ),
-    () => selector(initialTransactions),
+    useCallback(() => initialTransactions, [initialTransactions]),
+    selector,
   )
 
   return transactions

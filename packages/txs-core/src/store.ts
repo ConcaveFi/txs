@@ -96,8 +96,7 @@ export const createTransactionsStore = (_config?: Partial<TransactionsStoreConfi
     waitForTransaction(provider, user, chainId, tx)
   }
 
-  function transactionsOf(user?: Address, chainId?: number) {
-    if (!user || !chainId) return stableNoTransactions
+  function transactionsOf(user: Address, chainId: number) {
     return transactions[user]?.[chainId] || stableNoTransactions
   }
 
@@ -107,7 +106,7 @@ export const createTransactionsStore = (_config?: Partial<TransactionsStoreConfi
   }
 
   function removeTransaction(user: Address, chainId: number, hash: StoredTransaction['hash']) {
-    const tx = transactionsOf(user, chainId).find((tx) => tx.hash === hash)
+    const tx = transactionsOf(user, chainId)?.find((tx) => tx.hash === hash)
     if (!tx) return
     updateUserTransactions(user, chainId, (txs) => txs.filter((tx) => tx.hash !== hash))
     listeners.emit('removed', tx)
@@ -124,16 +123,17 @@ export const createTransactionsStore = (_config?: Partial<TransactionsStoreConfi
   }) {
     const { transactionHash: hash, status } = receipt
     // maybe add gasUsed, gasPrice, blockNumber, etc (?)
+    let updatedTx
     updateUserTransactions(user, chainId, (txs) => {
       const tx = txs.find((tx) => hash === tx.hash)
       if (!tx) return txs // if transaction is not in the store, it was cleared and we don't want to re-add it
-      const updatedTx = {
+      updatedTx = {
         ...tx,
         status: status === 1 ? 'confirmed' : 'failed',
       } satisfies StoredTransaction
-      listeners.emit('updated', updatedTx)
       return [updatedTx, ...txs.filter(({ hash }) => hash !== tx.hash)]
     })
+    if (updatedTx) listeners.emit('updated', updatedTx)
   }
 
   const pendingTxsCache: Map<string, Promise<void>> = new Map()

@@ -21,9 +21,11 @@
   },
   "dependencies": {
     "@pcnv/txs-core": "workspace:*",
+    "@types/use-sync-external-store": "^0.0.3",
     "detect-browser": "^5.3.0",
     "lucide-react": "0.105.0-alpha.4",
-    "use-prefers-color-scheme": "^1.1.2"
+    "use-prefers-color-scheme": "^1.1.2",
+    "use-sync-external-store": "^1.2.0"
   },
   "peerDependencies": {
     "@zag-js/react": ">=0.3.3",
