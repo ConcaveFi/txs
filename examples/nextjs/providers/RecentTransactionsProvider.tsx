@@ -8,8 +8,9 @@ import {
   TransactionStatusToastProps,
   TypedUseAddRecentTransaction,
   TypedUseRecentTransactions,
+  useRecentTransactions as _useRecentTransactions,
+  useAddRecentTransaction as _useAddRecentTransaction,
 } from '@pcnv/txs-react'
-import * as txs from '@pcnv/txs-react'
 import { EmojiToast } from '@pcnv/txs-react/toasts/EmojiToast'
 import '@pcnv/txs-react/toasts/EmojiToast/styles.css'
 
@@ -25,9 +26,9 @@ const MyCustomNotification = (props: TransactionStatusToastProps<TransactionMeta
 }
 
 export const useRecentTransactions: TypedUseRecentTransactions<TransactionMeta> =
-  txs.useRecentTransactions
+  _useRecentTransactions
 export const useAddRecentTransaction: TypedUseAddRecentTransaction<TransactionMeta> =
-  txs.useAddRecentTransaction
+  _useAddRecentTransaction
 
 export function RecentTransactionsProvider({ children }: PropsWithChildren) {
   return (

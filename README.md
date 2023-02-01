@@ -39,8 +39,8 @@ const transactionsStore = createTransactionsStore()
 ...
 
 // Add the provider to your app
-// make sure to make it as children of WagmiConfig 
-<WagmiConfig client={...}> 
+// make sure its a children of WagmiConfig
+<WagmiConfig client={...}>
   <TransactionsStoreProvider store={transactionsStore}>
     <ToastsViewport
       TransactionStatusComponent={ClassicToast}
@@ -74,19 +74,28 @@ And in your component
 ```
 
 ## Hooks
+
 #### `useRecentTransactions`
+
 returns all transactions stored for the connected user in the connected chain
+
 ```ts
 const recentTransactions = useRecentTransactions()
 ```
+
 It also accepts a selector
+
 ```ts
 // this component will only rerender when a new transaction is set as completed
-const completedTransactions = useRecentTransactions(txs => txs.filter(({ status }) => status === 'completed'))
+const completedTransactions = useRecentTransactions((txs) =>
+  txs.filter(({ status }) => status === 'completed'),
+)
 ```
 
 #### `useAddRecentTransaction`
+
 Adds a transaction to be tracked, to the connected user/chain
+
 ```ts
 const addTransaction = useAddRecentTransaction()
 ...
@@ -99,7 +108,9 @@ addTransaction({
 ```
 
 #### `useRemoveRecentTransaction`
+
 Removes a connected user transaction by hash
+
 ```ts
 const removeTransaction = useRemoveRecentTransaction()
 ...
@@ -107,7 +118,9 @@ removeTransaction(hash)
 ```
 
 #### `useClearRecentTransactions`
+
 Clears all transactions stored on the current connected user/chain
+
 ```ts
 const clearTransactions = useClearRecentTransactions()
 ...
@@ -115,22 +128,35 @@ clearTransactions()
 ```
 
 #### `useTransactionsStoreEvent`
+
 Listens for an event from the store to execute a callback
+
 ```ts
-useTransactionsStoreEvent('added', useCallback((tx) => {
-  // a new transaction was added, do something
-}, []))
+useTransactionsStoreEvent(
+  'added',
+  useCallback((tx) => {
+    // a new transaction was added, do something
+  }, []),
+)
 ```
+
 Supported events are `added`, `updated`, `removed`, `cleared`, `mounted`
 
 Useful if you are building your own notification solution
 
-Maybe you want to display a confirmation dialog on transaction confimed. 
+Maybe you want to display a confirmation dialog on transaction confimed.
 that could look something like this
+
 ```ts
-useTransactionsStoreEvent('updated', useCallback((tx) => {
-  if (tx.status === 'confirmed') displayTxConfirmedDialog(tx)
-}, [displayTxConfirmedDialog]))
+useTransactionsStoreEvent(
+  'updated',
+  useCallback(
+    (tx) => {
+      if (tx.status === 'confirmed') displayTxConfirmedDialog(tx)
+    },
+    [displayTxConfirmedDialog],
+  ),
+)
 ```
 
 ## Built in Components
@@ -167,6 +193,16 @@ for example, instead of a single `description` you may want to have custom descr
 Here's an example of how that could work
 
 ```jsx
+import {
+  StoredTransaction,
+  ToastsViewport,
+  TransactionStatusToastProps,
+  TypedUseAddRecentTransaction,
+  TypedUseRecentTransactions,
+  useRecentTransactions as _useRecentTransactions,
+  useAddRecentTransaction as _useAddRecentTransaction,
+} from '@pcnv/txs-react'
+
 type TransactionMeta = {
   [status in StoredTransaction['status']]: string
 }
@@ -178,8 +214,10 @@ const MyCustomNotification = (props: TransactionStatusToastProps<TransactionMeta
 
 // you can rexport the hooks passing your new type as a generic to type check on use
 // just remember to import from this file, and not @pcnv/txs-react
-export const useRecentTransactions = cnvTxs.useRecentTransactions<TransactionMeta>
-export const useAddRecentTransaction = cnvTxs.useAddRecentTransaction<TransactionMeta>
+export const useRecentTransactions: TypedUseRecentTransactions<TransactionMeta> =
+  _useRecentTransactions
+export const useAddRecentTransaction: TypedUseAddRecentTransaction<TransactionMeta> =
+  _useAddRecentTransaction
 
 ...
 <ToastsViewport TransactionStatusComponent={MyCustomNotification} />
