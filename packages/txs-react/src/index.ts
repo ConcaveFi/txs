@@ -6,8 +6,11 @@ export {
   useClearRecentTransactions,
   useTransactionsStoreEvent,
 } from './hooks'
-export { toast, ToastsViewport } from './toasts/ToastsViewport'
+export type { TypedUseAddRecentTransaction, TypedUseRecentTransactions } from './hooks'
+
 export { createTransactionsStore } from '@pcnv/txs-core'
-export { Portal } from '@zag-js/react'
 export type { StoredTransaction, NewTransaction } from '@pcnv/txs-core'
+
+export { toast, ToastsViewport } from './toasts/ToastsViewport'
+export { Portal } from '@zag-js/react'
 export type { TransactionStatusToastProps } from './toasts/ToastsViewport'

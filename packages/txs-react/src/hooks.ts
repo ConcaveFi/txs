@@ -1,4 +1,4 @@
-import { useSyncExternalStore, useCallback, useEffect } from 'react'
+import { useCallback, useEffect } from 'react'
 import { useAccount, useNetwork, useProvider } from 'wagmi'
 import { useTransactionsStore } from './Provider'
 import type { NewTransaction, StoredTransaction, TransactionsStoreEvents } from '@pcnv/txs-core'
@@ -7,8 +7,14 @@ import { DefaultToastTransactionMeta } from './toasts/ToastsViewport'
 import useSyncExternalStoreExports from 'use-sync-external-store/shim/with-selector'
 const { useSyncExternalStoreWithSelector } = useSyncExternalStoreExports
 
+export interface TypedUseRecentTransactions<Meta extends StoredTransaction['meta']> {
+  <Selected = StoredTransaction<Meta>[]>(
+    selector?: (state: StoredTransaction<Meta>[]) => Selected,
+    options?: { initialTransactions?: StoredTransaction<Meta>[] },
+  ): Selected
+}
 export const useRecentTransactions = <
-  Meta extends StoredTransaction['meta'] = DefaultToastTransactionMeta,
+  Meta extends StoredTransaction['meta'],
   Selector = StoredTransaction<Meta>[],
 >(
   selector: (txs: StoredTransaction<Meta>[]) => Selector = (txs) => txs as Selector,
@@ -34,6 +40,9 @@ export const useRecentTransactions = <
   return transactions
 }
 
+export type TypedUseAddRecentTransaction<Meta extends NewTransaction['meta']> = () => (
+  transaction: NewTransaction<Meta>,
+) => void
 export const useAddRecentTransaction = <
   Meta extends NewTransaction['meta'] = DefaultToastTransactionMeta,
 >(): ((transaction: NewTransaction<Meta>) => void) => {
@@ -43,7 +52,7 @@ export const useAddRecentTransaction = <
   const provider = useProvider()
 
   return useCallback(
-    (transaction: NewTransaction<Meta>) => {
+    (transaction) => {
       if (address && chain) store.addTransaction(transaction, address, chain.id, provider)
     },
     [address, chain, provider, store],
