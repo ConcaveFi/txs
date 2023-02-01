@@ -63,7 +63,12 @@ export const EmojiToast = ({
 
   return (
     <div className={`${theme[key]} ${styles.root} ${className}`} {...rootProps}>
-      <a href={txExplorerLink(transaction)} className={`${flex} ${p3} ${gap3}`}>
+      <a
+        href={txExplorerLink(transaction)}
+        target="_blank"
+        rel="noopener noreferrer"
+        className={`${flex} ${p3} ${gap3}`}
+      >
         {icon}
         <div className={`${flexColumn} ${justifyCenter}`}>
           {title ? <span className={styles.title}>{title}</span> : null}
