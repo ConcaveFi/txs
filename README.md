@@ -283,3 +283,6 @@ addTransaction({
    },
 })
 ```
+
+## Enter & Exit Animations
+Check [Zagjs Docs](https://zagjs.com/components/react/toast#styling-guide)
