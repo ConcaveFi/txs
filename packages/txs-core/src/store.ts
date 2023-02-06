@@ -1,5 +1,5 @@
 import type { BaseProvider, TransactionReceipt } from '@ethersproject/providers'
-import { createEventEmmiter } from './eventEmmiter'
+import { createEventEmmiter } from 'eeemiter'
 import { createStorage } from './localStorage'
 
 type Address = `0x${string}`
@@ -53,10 +53,10 @@ const defaultConfig = {
 const stableNoTransactions: StoredTransaction[] = []
 
 export type TransactionsStoreEvents =
-  | { type: 'mounted'; arg: StoredTransaction[] }
-  | { type: 'updated'; arg: StoredTransaction }
-  | { type: 'added'; arg: StoredTransaction }
-  | { type: 'removed'; arg: StoredTransaction }
+  | { type: 'mounted'; payload: StoredTransaction[] }
+  | { type: 'updated'; payload: StoredTransaction }
+  | { type: 'added'; payload: StoredTransaction }
+  | { type: 'removed'; payload: StoredTransaction }
   | { type: 'cleared' }
 
 export const createTransactionsStore = (_config?: Partial<TransactionsStoreConfig>) => {
