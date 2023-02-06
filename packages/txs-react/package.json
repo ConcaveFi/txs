@@ -1,6 +1,12 @@
 {
   "name": "@pcnv/txs-react",
-  "version": "0.0.4",
+  "version": "0.0.5",
+  "description": "Easy way to manage user transaction status on your dapp",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ConcaveFi/txs"
+  },
+  "author": "greg-schrammel",
   "type": "module",
   "module": "dist/index.js",
   "types": "dist/index.d.ts",

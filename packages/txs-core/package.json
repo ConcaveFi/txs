@@ -1,6 +1,11 @@
 {
   "name": "@pcnv/txs-core",
-  "version": "0.0.2",
+  "version": "0.0.3",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ConcaveFi/txs"
+  },
+  "author": "greg-schrammel",
   "type": "module",
   "files": [
     "dist"
