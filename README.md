@@ -286,3 +286,7 @@ addTransaction({
 
 ## Enter & Exit Animations
 Check [Zagjs Docs](https://zagjs.com/components/react/toast#styling-guide)
+
+# More
+
+Check how's it being used it the (concave repo)[https://github.com/ConcaveFi/concave-frontend/blob/develop/apps/cave/contexts/Transactions/TransactionsContext.tsx]
