@@ -1,6 +1,6 @@
 {
   "name": "@pcnv/txs-react",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "description": "Easy way to manage user transaction status on your dapp",
   "repository": {
     "type": "git",

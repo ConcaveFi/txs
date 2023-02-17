@@ -59,8 +59,16 @@ export type TransactionsStoreEvents =
   | { type: 'removed'; payload: StoredTransaction }
   | { type: 'cleared' }
 
+type StoreContext = {
+  user: Address
+  chainId: number
+  provider: BaseProvider
+}
+
 export const createTransactionsStore = (_config?: Partial<TransactionsStoreConfig>) => {
   const config = { ...defaultConfig, ..._config }
+
+  let ctx: StoreContext | undefined = undefined
 
   const txsStorage = createStorage(config.localStorageKey)
   let transactions = txsStorage.get()
@@ -84,9 +92,9 @@ export const createTransactionsStore = (_config?: Partial<TransactionsStoreConfi
 
   function addTransaction<Meta extends NewTransaction['meta']>(
     newTx: NewTransaction<Meta>,
-    user: Address,
-    chainId: number,
-    provider: BaseProvider,
+    user: Address = ctx?.user!,
+    chainId: number = ctx?.chainId!,
+    provider: BaseProvider = ctx?.provider!,
   ) {
     const tx = parseNewTransaction(newTx, provider._network.chainId, config)
     updateUserTransactions(user, chainId, (txs) =>
@@ -96,17 +104,24 @@ export const createTransactionsStore = (_config?: Partial<TransactionsStoreConfi
     waitForTransaction(provider, user, chainId, tx)
   }
 
-  function transactionsOf(user: Address, chainId: number) {
-    return transactions[user]?.[chainId] || stableNoTransactions
+  function getTransactions<Meta extends NewTransaction['meta']>(
+    user: Address = ctx?.user!,
+    chainId: number = ctx?.chainId!,
+  ) {
+    return (transactions[user]?.[chainId] as StoredTransaction<Meta>[]) || stableNoTransactions
   }
 
-  function clearTransactions(user: Address, chainId: number) {
+  function clearTransactions(user: Address = ctx?.user!, chainId: number = ctx?.chainId!) {
     updateUserTransactions(user, chainId, () => [])
     listeners.emit('cleared')
   }
 
-  function removeTransaction(user: Address, chainId: number, hash: StoredTransaction['hash']) {
-    const tx = transactionsOf(user, chainId)?.find((tx) => tx.hash === hash)
+  function removeTransaction(
+    hash: StoredTransaction['hash'],
+    user: Address = ctx?.user!,
+    chainId: number = ctx?.chainId!,
+  ) {
+    const tx = getTransactions(user, chainId)?.find((tx) => tx.hash === hash)
     if (!tx) return
     updateUserTransactions(user, chainId, (txs) => txs.filter((tx) => tx.hash !== hash))
     listeners.emit('removed', tx)
@@ -152,6 +167,7 @@ export const createTransactionsStore = (_config?: Partial<TransactionsStoreConfi
   }
 
   function mount(provider: BaseProvider, user: Address, chainId: number) {
+    ctx = { user, chainId, provider }
     if (!transactions?.[user]?.[chainId]) return
     const pendingTxs = transactions[user][chainId].filter((tx) => tx.status === 'pending')
     Promise.all(pendingTxs.map((tx) => waitForTransaction(provider, user, chainId, tx)))
@@ -159,6 +175,7 @@ export const createTransactionsStore = (_config?: Partial<TransactionsStoreConfi
   }
 
   function unmount() {
+    ctx = undefined
     pendingTxsCache.clear()
     listeners.clear()
   }
@@ -178,7 +195,7 @@ export const createTransactionsStore = (_config?: Partial<TransactionsStoreConfi
 
   return {
     addTransaction,
-    transactionsOf,
+    getTransactions,
     clearTransactions,
     removeTransaction,
     onTransactionsChange,

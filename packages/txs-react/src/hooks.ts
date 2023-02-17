@@ -1,5 +1,4 @@
 import { useCallback, useEffect } from 'react'
-import { useAccount, useNetwork, useProvider } from 'wagmi'
 import { useTransactionsStore } from './Provider'
 import type { NewTransaction, StoredTransaction, TransactionsStoreEvents } from '@pcnv/txs-core'
 import { DefaultToastTransactionMeta } from './toasts/ToastsViewport'
@@ -13,6 +12,7 @@ export interface TypedUseRecentTransactions<Meta extends StoredTransaction['meta
     options?: { initialTransactions?: StoredTransaction<Meta>[] },
   ): Selected
 }
+
 export const useRecentTransactions = <
   Meta extends StoredTransaction['meta'],
   Selector = StoredTransaction<Meta>[],
@@ -21,18 +21,10 @@ export const useRecentTransactions = <
   { initialTransactions = [] }: { initialTransactions?: StoredTransaction<Meta>[] } = {},
 ) => {
   const store = useTransactionsStore()
-  const { address } = useAccount()
-  const { chain } = useNetwork()
 
   const transactions = useSyncExternalStoreWithSelector(
     store.onTransactionsChange,
-    useCallback(
-      () =>
-        address && chain?.id
-          ? (store.transactionsOf(address, chain.id) as StoredTransaction<Meta>[])
-          : [],
-      [address, chain?.id, store, selector],
-    ),
+    store.getTransactions,
     useCallback(() => initialTransactions, [initialTransactions]),
     selector,
   )
@@ -47,40 +39,17 @@ export const useAddRecentTransaction = <
   Meta extends NewTransaction['meta'] = DefaultToastTransactionMeta,
 >(): ((transaction: NewTransaction<Meta>) => void) => {
   const store = useTransactionsStore()
-  const { address } = useAccount()
-  const { chain } = useNetwork()
-  const provider = useProvider()
-
-  return useCallback(
-    (transaction) => {
-      if (address && chain) store.addTransaction(transaction, address, chain.id, provider)
-    },
-    [address, chain, provider, store],
-  )
+  return useCallback((tx: NewTransaction<Meta>) => store.addTransaction(tx), [store])
 }
 
 export const useClearRecentTransactions = () => {
   const store = useTransactionsStore()
-  const { address } = useAccount()
-  const { chain } = useNetwork()
-  const provider = useProvider()
-
-  return useCallback(() => {
-    if (address && chain) store.clearTransactions(address, chain.id)
-  }, [address, chain, provider, store])
+  return store.clearTransactions()
 }
 
 export const useRemoveRecentTransaction = () => {
   const store = useTransactionsStore()
-  const { address } = useAccount()
-  const { chain } = useNetwork()
-
-  return useCallback(
-    (hash: StoredTransaction['hash']) => {
-      if (address && chain) store.removeTransaction(address, chain.id, hash)
-    },
-    [address, chain, store],
-  )
+  return useCallback((hash: StoredTransaction['hash']) => store.removeTransaction(hash), [store])
 }
 
 export const useTransactionsStoreEvent = <
