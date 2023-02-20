@@ -1,5 +1,0 @@
-{
-  "internal": true,
-  "module": "../../dist/toasts/ClassicToast/ClassicToast.js",
-  "types": "../../dist/toasts/ClassicToast/ClassicToast.d.ts"
-}

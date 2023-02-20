@@ -1,6 +1,6 @@
 {
   "name": "@pcnv/txs-react",
-  "version": "0.0.6",
+  "version": "0.0.7",
   "description": "Easy way to manage user transaction status on your dapp",
   "repository": {
     "type": "git",
@@ -16,6 +16,19 @@
     "./toasts/ClassicToast/styles.css": "./dist/toasts/ClassicToast/ClassicToast.css",
     "./toasts/EmojiToast": "./dist/toasts/EmojiToast/EmojiToast.js",
     "./toasts/EmojiToast/styles.css": "./dist/toasts/EmojiToast/EmojiToast.css"
+  },
+  "typesVersions": {
+    "*": {
+      ".": [
+        "dist/index.d.ts"
+      ],
+      "toasts/ClassicToast": [
+        "dist/toasts/ClassicToast/ClassicToast.d.ts"
+      ],
+      "toasts/EmojiToast": [
+        "dist/toasts/EmojiToast/EmojiToast.d.ts"
+      ]
+    }
   },
   "sideEffects": false,
   "files": [
