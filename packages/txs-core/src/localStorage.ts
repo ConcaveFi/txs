@@ -28,4 +28,4 @@ export const createStorage = (storageKey: string) =>
           }
         },
       }
-    : { get: () => ({}), set: () => {} }
+    : { get: (): StoredTransactions => ({}), set: () => {} }
