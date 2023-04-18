@@ -96,7 +96,7 @@ export const createTransactionsStore = (_config?: Partial<TransactionsStoreConfi
     chainId: number = ctx?.chainId!,
     provider: BaseProvider = ctx?.provider!,
   ) {
-    const tx = parseNewTransaction(newTx, provider._network.chainId, config)
+    const tx = parseNewTransaction(newTx, chainId, config)
     updateUserTransactions(user, chainId, (txs) =>
       [...txs.filter(({ hash }) => hash !== tx.hash), tx].slice(0, config.maxCompletedTransactions),
     )
@@ -168,9 +168,10 @@ export const createTransactionsStore = (_config?: Partial<TransactionsStoreConfi
 
   function mount(provider: BaseProvider, user: Address, chainId: number) {
     ctx = { user, chainId, provider }
-    if (!transactions?.[user]?.[chainId]) return
-    const pendingTxs = transactions[user][chainId].filter((tx) => tx.status === 'pending')
-    Promise.all(pendingTxs.map((tx) => waitForTransaction(provider, user, chainId, tx)))
+    if (transactions?.[user]?.[chainId]) {
+      const pendingTxs = transactions[user][chainId].filter((tx) => tx.status === 'pending')
+      Promise.all(pendingTxs.map((tx) => waitForTransaction(provider, user, chainId, tx)))
+    }
     listeners.emit('mounted', transactions[user][chainId])
   }
 
