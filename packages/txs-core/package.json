@@ -1,6 +1,6 @@
 {
   "name": "@pcnv/txs-core",
-  "version": "0.0.6",
+  "version": "0.0.8",
   "repository": {
     "type": "git",
     "url": "https://github.com/ConcaveFi/txs"
