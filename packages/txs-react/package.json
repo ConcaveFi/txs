@@ -19,7 +19,7 @@
   },
   "typesVersions": {
     "*": {
-      ".": [
+      "*": [
         "dist/index.d.ts"
       ],
       "toasts/ClassicToast": [
